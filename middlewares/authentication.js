@@ -1,4 +1,4 @@
-import { UnauthenticatedError } from '../errors/index.js'
+import { UnauthenticatedError, UnauthorizedError } from '../errors/index.js'
 import { isTokenValid } from '../utils/jwt.js'
 
 const authenticateUser = async (req, res, next) => {
@@ -9,11 +9,19 @@ const authenticateUser = async (req, res, next) => {
     }
     try {
         const { email, role } = isTokenValid({ token })
-        console.log(email, role)
+        req.user = { email, role }
         next()
     } catch (err) {
         throw new UnauthenticatedError('Authentication Invalid')
     }
 }
 
-export { authenticateUser }
+const authorizePermission = (...roles) => {
+    return async (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            throw new UnauthorizedError('Unauthorize to access this route')
+        }
+        next()
+    }
+}
+export { authenticateUser, authorizePermission }

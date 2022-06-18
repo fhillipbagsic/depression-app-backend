@@ -20,10 +20,8 @@ const signup = async (req, res) => {
     req.body.password = hashedPassword
 
     if (role === 'Patient') {
-        console.log('Register patient')
         Patient.create(req.body)
     } else if (role === 'Clinician') {
-        console.log('Register clinician')
         Clinician.create(req.body)
     }
 
