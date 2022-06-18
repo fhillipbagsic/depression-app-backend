@@ -14,8 +14,10 @@ import express from 'express'
 const app = express()
 
 // database
+import connect from './database/connect.js'
 
 // routers
+import userRouter from './routes/userRoutes.js'
 
 // middlewares
 import notFoundMiddleware from './middlewares/notFound.js'
@@ -23,21 +25,36 @@ import errorHandlerMiddleware from './middlewares/errorHandler.js'
 
 app.use(express.json())
 
-if(process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'))
 }
 
 // securities
 app.use(cors())
 app.use(helmet())
-app.use(rateLimit({windowMs: 60 * 1000, max: 150}))
+app.use(rateLimit({ windowMs: 60 * 1000, max: 150 }))
 
 app.get('/', (req, res) => res.send('Depression App API'))
 
+app.use('/api/users', userRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
 
 const PORT = process.env.PORT || 5001
 
-app.listen(PORT, () => console.log(`Running on port ${PORT}`))
+const startServer = async () => {
+    try {
+        connect(process.env.MONGO_URI)
+        app.listen(
+            PORT,
+            console.log(
+                `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
+            )
+        )
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+startServer()
