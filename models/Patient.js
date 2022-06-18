@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import bcrypt from 'bcryptjs'
 
 const PatientSchema = new mongoose.Schema({
     firstName: { type: String, required: [true, 'Please provide first name'] },
@@ -11,6 +12,10 @@ const PatientSchema = new mongoose.Schema({
     picture: { type: String, required: [true, ' Please provide picture'] },
     username: { type: String, required: [true, 'Please provide username'] },
     password: { type: String, required: [true, 'Please provide password'] },
+    role: {
+        type: String,
+        required: [true, 'Please provide role'],
+    },
 })
 
 export default mongoose.model('Patient', PatientSchema)
