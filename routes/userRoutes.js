@@ -3,8 +3,11 @@ import {
     createClinician,
     createPatient,
     deletePatient,
+    getClinician,
+    getClinicians,
     getPatient,
     getPatients,
+    updateClinician,
     updatePatient,
 } from '../controllers/userController.js'
 import {
@@ -29,8 +32,14 @@ router
 
 router
     .route('/getpatients')
-    .get([authenticateUser, authorizePermission('Clinician')], getPatients)
+    .get([authenticateUser, authorizePermission('Clinician')], getPatients) // Add admin authorization
 
-router.route('/clinician').post(createClinician)
+router // Add admin authorization
+    .route('/clinician')
+    .get([authenticateUser], getClinician)
+    .post([authenticateUser], createClinician)
+    .patch([authenticateUser], updateClinician)
+
+router.route('/getclinicians').get([authenticateUser], getClinicians) // Add admin authorization
 
 export default router

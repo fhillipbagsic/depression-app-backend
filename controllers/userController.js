@@ -53,12 +53,15 @@ const getPatient = async (req, res) => {
 
     const patient = await Patient.findOne({ email })
 
-    res.status(StatusCodes.OK).json({ patient: patient })
+    res.status(StatusCodes.OK).json({ patient })
 }
 
 const getPatients = async (req, res) => {
-    const patients = await Patient.find()
-    res.status(StatusCodes.OK).json({ patients: patients })
+    const clinician = req.body?.email || req.user.email
+
+    const patients = await Patient.find({ assignedClinician: clinician })
+
+    res.status(StatusCodes.OK).json({ patients })
 }
 
 const createClinician = async (req, res) => {
@@ -75,11 +78,40 @@ const createClinician = async (req, res) => {
     res.status(StatusCodes.OK).json({ message: 'Clinician registered' })
 }
 
-const updateClinician = async (req, res) => {}
+const updateClinician = async (req, res) => {
+    const currentEmail = req.body.currentEmail
+    const newEmail = req.body.email
+    const hashedPassword = await hashPassword(req.body.password)
 
-const getClinician = async (req, res) => {}
+    // if email has changed, update first all patient who has the assigned clinician
+    if (currentEmail !== newEmail) {
+        const response = await Patient.updateMany(
+            { assignedClinician: currentEmail },
+            { assignedClinician: newEmail }
+        )
+    }
 
-const getClinicians = async (req, res) => {}
+    const response = await Clinician.updateOne(
+        { email: currentEmail },
+        { ...req.body, password: hashedPassword }
+    )
+
+    res.status(StatusCodes.OK).json({ mesage: `Clinician has been updated` })
+}
+
+const getClinician = async (req, res) => {
+    const email = req.body.email
+
+    const clinician = await Clinician.findOne({ email })
+
+    res.status(StatusCodes.OK).json({ clinician })
+}
+
+const getClinicians = async (req, res) => {
+    const clinicians = await Clinician.find()
+
+    res.status(StatusCodes.OK).json({ clinicians })
+}
 
 export {
     createPatient,
@@ -88,4 +120,7 @@ export {
     getPatient,
     getPatients,
     createClinician,
+    updateClinician,
+    getClinician,
+    getClinicians,
 }
