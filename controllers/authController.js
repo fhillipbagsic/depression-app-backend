@@ -56,4 +56,50 @@ const login = async (req, res) => {
     res.status(StatusCodes.OK).json({ user: token })
 }
 
-export { signup, login }
+const logout = async (req, res) => {
+    res.cookie('token', 'logout', {
+        httpOnly: true,
+        expires: new Date(Date.now() + 1000),
+    })
+
+    res.status(StatusCodes.OK).json({ message: 'User logged out' })
+}
+
+const changePassword = async (req, res) => {
+    const { email, oldPassword, newPassword } = req.body
+
+    if (!email || !oldPassword || !newPassword) {
+        throw new BadRequestError(
+            `Please provide email, old password, and new password`
+        )
+    }
+    const user =
+        (await Patient.findOne({ email })) ||
+        (await Clinician.findOne({ email }))
+
+    const isPasswordCorrect = await comparePassword(oldPassword, user.password)
+
+    if (!isPasswordCorrect) {
+        throw new BadRequestError('Old Password incorrect')
+    }
+
+    const hashedPassword = await hashPassword(newPassword)
+
+    if (user.role === 'Patient') {
+        const resp = await Patient.updateOne(
+            { email },
+            { password: hashedPassword }
+        )
+    } else if (user.role === 'Clinician') {
+        const resp = await Clinician.updateOne(
+            { email },
+            { password: hashedPassword }
+        )
+    }
+
+    res.status(StatusCodes.OK).json({
+        message: 'Password updated successfully',
+    })
+}
+
+export { signup, login, logout, changePassword }
