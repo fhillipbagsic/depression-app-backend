@@ -16,6 +16,9 @@ const createPatient = async (req, res) => {
         throw new BadRequestError('Patient is already registered')
     }
 
+    const hashedPassword = await hashPassword(req.body.password)
+    req.body.password = hashedPassword
+
     const response = await Patient.create(req.body)
 
     res.status(StatusCodes.CREATED).json({

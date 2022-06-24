@@ -39,12 +39,14 @@ const login = async (req, res) => {
         (await Patient.findOne({ email })) ||
         (await Clinician.findOne({ email }))
 
+    console.log(user)
     if (!user) {
         throw new UnauthenticatedError('Invalid Credentials')
     }
 
     const isPasswordCorrect = await comparePassword(password, user.password)
 
+    console.log(isPasswordCorrect)
     if (!isPasswordCorrect) {
         throw new UnauthenticatedError('Invalid Credentials')
     }
