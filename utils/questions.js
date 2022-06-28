@@ -75,3 +75,5 @@ const questions = [
     'What have you learned about yourself through your experience with depression?',
     'Cultivate a growth mindset rather than a fixed mindset. Those with a growth mindset are willing to take risks and make mistakes, see their perceived failures as opportunities to grow, and are open to receiving feedback. Take time to evaluate where in your life you can incorporate more of a growth mindset. For example, what can you do that is out of your comfort zone, and how can you use it as an opportunity to move yourself forward and learn from it?',
 ]
+
+export default questions
