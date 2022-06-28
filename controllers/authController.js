@@ -13,11 +13,12 @@ const signup = async (req, res) => {
         (await Clinician.findOne({ email }))
 
     if (emailAlreadyExists) {
-        throw new BadRequestError('Email already exists')
+        throw new BadRequestError('Email already registered')
     }
 
     const hashedPassword = await hashPassword(password)
     req.body.password = hashedPassword
+    req.body.dateAdded = new Date(Date.now())
 
     if (role === 'Patient') {
         Patient.create(req.body)
