@@ -19,6 +19,7 @@ import connect from './database/connect.js'
 // routers
 import authRouter from './routes/authRoutes.js'
 import userRouter from './routes/userRoutes.js'
+import trackerRouter from './routes/trackerRoutes.js'
 
 // middlewares
 import notFoundMiddleware from './middlewares/notFound.js'
@@ -41,7 +42,7 @@ app.get('/', (req, res) => res.send('Depression App API'))
 
 app.use('/api/auth', authRouter)
 app.use('/api/users', userRouter)
-
+app.use('/api/tracker', trackerRouter)
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
 
