@@ -1,5 +1,4 @@
 import { StatusCodes } from 'http-status-codes'
-import cloudinary from 'cloudinary'
 import Patient from '../models/Patient.js'
 import { BadRequestError } from '../errors/index.js'
 import Clinician from '../models/Clinician.js'
@@ -19,15 +18,8 @@ const createPatient = async (req, res) => {
 
     const hashedPassword = await hashPassword(req.body.password)
     req.body.password = hashedPassword
-    const fileStr = req.body.picture
 
-    const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
-        upload_preset: 'oqozctfv',
-    })
-
-    const url = uploadedResponse.public_id
-
-    const response = await Patient.create({ ...req.body, picture: url })
+    const response = await Patient.create(req.body)
 
     res.status(StatusCodes.CREATED).json({
         message: `Patient ${response.firstName} ${response.lastName} has been added`,

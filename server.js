@@ -48,11 +48,6 @@ app.use(
 )
 app.use(helmet())
 app.use(rateLimit({ windowMs: 60 * 1000, max: 150 }))
-cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.API_KEY,
-    api_secret: process.env.API_SECRET,
-})
 
 app.get('/', (req, res) => res.send('Depression App API'))
 
