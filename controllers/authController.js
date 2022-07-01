@@ -105,4 +105,13 @@ const changePassword = async (req, res) => {
     })
 }
 
-export { signup, login, logout, changePassword }
+const getInfo = async (req, res) => {
+    const email = req.user.email
+    const user =
+        (await Patient.findOne({ email })) ||
+        (await Clinician.findOne({ email }))
+
+    res.status(200).json({ user })
+}
+
+export { signup, login, logout, changePassword, getInfo }
