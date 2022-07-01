@@ -17,6 +17,7 @@ const attachCookiesToResponse = ({ res, user }) => {
         httpOnly: true,
         expires: new Date(Date.now() + fourWeeks),
         secure: process.env.NODE_ENV === 'production',
+        domain: 'localhost',
     })
 }
 
