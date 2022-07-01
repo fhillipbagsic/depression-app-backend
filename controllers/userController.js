@@ -52,15 +52,16 @@ const deletePatient = async (req, res) => {
 }
 
 const getPatient = async (req, res) => {
-    const email = req.body.email
+    const email = req.query.email
 
+    console.log(req)
     const patient = await Patient.findOne({ email })
 
     res.status(StatusCodes.OK).json({ patient })
 }
 
 const getPatients = async (req, res) => {
-    const clinician = req.body?.email || req.user.email
+    const clinician = req.query?.email || req.user.email
 
     const patients = await Patient.find({ assignedClinician: clinician })
 
@@ -104,7 +105,7 @@ const updateClinician = async (req, res) => {
 }
 
 const getClinician = async (req, res) => {
-    const email = req.body.email
+    const email = req.query.email
 
     const clinician = await Clinician.findOne({ email })
 
