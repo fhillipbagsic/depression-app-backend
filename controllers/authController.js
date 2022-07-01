@@ -30,24 +30,22 @@ const signup = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    const { email, password } = req.body
+    const { username, password } = req.body
 
-    if (!email || !password) {
+    if (!username || !password) {
         throw new BadRequestError('Please provide email and password')
     }
 
     const user =
-        (await Patient.findOne({ email })) ||
-        (await Clinician.findOne({ email }))
+        (await Patient.findOne({ username })) ||
+        (await Clinician.findOne({ username }))
 
-    console.log(user)
     if (!user) {
         throw new UnauthenticatedError('Invalid Credentials')
     }
 
     const isPasswordCorrect = await comparePassword(password, user.password)
 
-    console.log(isPasswordCorrect)
     if (!isPasswordCorrect) {
         throw new UnauthenticatedError('Invalid Credentials')
     }
@@ -57,6 +55,33 @@ const login = async (req, res) => {
     attachCookiesToResponse({ res, user: token })
 
     res.status(StatusCodes.OK).json({ user: token })
+    // const { email, password } = req.body
+
+    // if (!email || !password) {
+    //     throw new BadRequestError('Please provide email and password')
+    // }
+
+    // const user =
+    //     (await Patient.findOne({ email })) ||
+    //     (await Clinician.findOne({ email }))
+
+    // console.log(user)
+    // if (!user) {
+    //     throw new UnauthenticatedError('Invalid Credentials')
+    // }
+
+    // const isPasswordCorrect = await comparePassword(password, user.password)
+
+    // console.log(isPasswordCorrect)
+    // if (!isPasswordCorrect) {
+    //     throw new UnauthenticatedError('Invalid Credentials')
+    // }
+
+    // const token = createToken(user)
+
+    // attachCookiesToResponse({ res, user: token })
+
+    // res.status(StatusCodes.OK).json({ user: token })
 }
 
 const logout = async (req, res) => {
