@@ -34,7 +34,12 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // securities
-app.use(cors())
+app.use(
+    cors({
+        origin: true,
+        credentials: true,
+    })
+)
 app.use(helmet())
 app.use(rateLimit({ windowMs: 60 * 1000, max: 150 }))
 
