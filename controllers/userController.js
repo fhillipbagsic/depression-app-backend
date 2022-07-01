@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
+import cloudinary from 'cloudinary'
 import Patient from '../models/Patient.js'
 import { BadRequestError } from '../errors/index.js'
 import Clinician from '../models/Clinician.js'
@@ -18,8 +19,15 @@ const createPatient = async (req, res) => {
 
     const hashedPassword = await hashPassword(req.body.password)
     req.body.password = hashedPassword
+    const fileStr = req.body.picture
 
-    const response = await Patient.create(req.body)
+    const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
+        upload_preset: 'oqozctfv',
+    })
+
+    const url = uploadedResponse.public_id
+
+    const response = await Patient.create({ ...req.body, picture: url })
 
     res.status(StatusCodes.CREATED).json({
         message: `Patient ${response.firstName} ${response.lastName} has been added`,
@@ -75,7 +83,8 @@ const createClinician = async (req, res) => {
     if (clinician) {
         throw new BadRequestError('Clinician is already registered')
     }
-
+    req.body.dateAdded = new Date(Date.now())
+    req.body.role = 'Clinician'
     Clinician.create(req.body)
 
     res.status(StatusCodes.OK).json({ message: 'Clinician registered' })
@@ -116,6 +125,10 @@ const getClinicians = async (req, res) => {
     res.status(StatusCodes.OK).json({ clinicians })
 }
 
+const getPatientsEmails = async () => {
+    const patients = await Patient.find()
+    return patients.map((patient) => patient.email)
+}
 export {
     createPatient,
     updatePatient,
@@ -126,4 +139,5 @@ export {
     updateClinician,
     getClinician,
     getClinicians,
+    getPatientsEmails,
 }
