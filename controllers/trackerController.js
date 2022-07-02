@@ -42,7 +42,13 @@ const healthHabit = async (req, res) => {
     res.status(StatusCodes.OK).json({ message: 'Health habit created' })
 }
 
-const getHealthHabit = async (req, res) => {}
+const getHealthHabit = async (req, res) => {
+    const email = req.query.email
+
+    const healthHabits = await HealthHabit.find({ email })
+
+    res.status(StatusCodes.OK).json({ healthHabits })
+}
 
 const questionOfTheDay = async (req, res) => {
     const day = await getDay()
@@ -72,4 +78,11 @@ const getDay = async () => {
     return day
 }
 
-export { dailyTracker, getDailyTracker, healthHabit, questionOfTheDay, getDay }
+export {
+    dailyTracker,
+    getDailyTracker,
+    healthHabit,
+    getHealthHabit,
+    questionOfTheDay,
+    getDay,
+}

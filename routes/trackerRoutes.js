@@ -2,6 +2,7 @@ import express from 'express'
 import {
     dailyTracker,
     getDailyTracker,
+    getHealthHabit,
     healthHabit,
     questionOfTheDay,
 } from '../controllers/trackerController.js'
@@ -19,6 +20,7 @@ router
 
 router
     .route('/healthhabit')
+    .get([authenticateUser], getHealthHabit)
     .post([authenticateUser, authorizePermission('Patient')], healthHabit)
 
 router
