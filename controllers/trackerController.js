@@ -12,9 +12,15 @@ const dailyTracker = async (req, res) => {
 
     const response = await DailyTracker.create({ ...req.body, email })
 
-    console.log(response)
-
     res.status(StatusCodes.OK).json({ message: 'ok' })
+}
+
+const getDailyTracker = async (req, res) => {
+    const email = req.body.email
+
+    const dailyTrackers = await DailyTracker.find({ email })
+
+    res.status(StatusCodes.OK).json({ dailyTrackers })
 }
 
 const healthHabit = async (req, res) => {
@@ -64,4 +70,4 @@ const getDay = async () => {
     return day
 }
 
-export { dailyTracker, healthHabit, questionOfTheDay, getDay }
+export { dailyTracker, getDailyTracker, healthHabit, questionOfTheDay, getDay }

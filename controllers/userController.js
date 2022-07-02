@@ -54,7 +54,6 @@ const deletePatient = async (req, res) => {
 const getPatient = async (req, res) => {
     const email = req.query.email
 
-    console.log(req)
     const patient = await Patient.findOne({ email })
 
     res.status(StatusCodes.OK).json({ patient })
