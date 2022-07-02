@@ -16,7 +16,7 @@ const dailyTracker = async (req, res) => {
 }
 
 const getDailyTracker = async (req, res) => {
-    const email = req.body.email
+    const email = req.query.email
 
     const dailyTrackers = await DailyTracker.find({ email })
 
