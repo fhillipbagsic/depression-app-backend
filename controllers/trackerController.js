@@ -42,6 +42,8 @@ const healthHabit = async (req, res) => {
     res.status(StatusCodes.OK).json({ message: 'Health habit created' })
 }
 
+const getHealthHabit = async (req, res) => {}
+
 const questionOfTheDay = async (req, res) => {
     const day = await getDay()
     const question = questions[day]
