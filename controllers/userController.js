@@ -3,6 +3,7 @@ import Patient from '../models/Patient.js'
 import { BadRequestError } from '../errors/index.js'
 import Clinician from '../models/Clinician.js'
 import { hashPassword } from '../utils/validatePassword.js'
+import Admin from '../models/Admin.js'
 
 const createPatient = async (req, res) => {
     const email = req.body.email
@@ -121,6 +122,25 @@ const getPatientsEmails = async () => {
     const patients = await Patient.find()
     return patients.map((patient) => patient.email)
 }
+
+const createAdminAccount = async () => {
+    const admin = {
+        firstName: 'admin',
+        lastName: 'admin',
+        email: 'emovault@gmail.com',
+        contactNo: '09123456789',
+        picture:
+            'https://res.cloudinary.com/dlvt2lnkh/image/upload/v1656746343/emovaultClient/egj5r6ccwa0my7skdkfc.png',
+        username: 'Admin',
+        password: 'adminpass',
+        role: 'Admin',
+    }
+
+    const hashedPassword = hashPassword(admin.password)
+    admin.password = await hashedPassword
+
+    const response = await Admin.create(admin)
+}
 export {
     createPatient,
     updatePatient,
@@ -132,4 +152,5 @@ export {
     getClinician,
     getClinicians,
     getPatientsEmails,
+    createAdminAccount,
 }

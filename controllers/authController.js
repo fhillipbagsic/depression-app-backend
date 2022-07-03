@@ -1,5 +1,6 @@
 import { StatusCodes } from 'http-status-codes'
 import { UnauthenticatedError, BadRequestError } from '../errors/index.js'
+import Admin from '../models/Admin.js'
 import Clinician from '../models/Clinician.js'
 import Patient from '../models/Patient.js'
 import { attachCookiesToResponse, createToken } from '../utils/jwt.js'
@@ -10,7 +11,8 @@ const signup = async (req, res) => {
 
     const emailAlreadyExists =
         (await Patient.findOne({ email })) ||
-        (await Clinician.findOne({ email }))
+        (await Clinician.findOne({ email })) ||
+        (await Admin.findOne({ email }))
 
     if (emailAlreadyExists) {
         throw new BadRequestError('Email already registered')
@@ -38,16 +40,15 @@ const login = async (req, res) => {
 
     const user =
         (await Patient.findOne({ email })) ||
-        (await Clinician.findOne({ email }))
+        (await Clinician.findOne({ email })) ||
+        (await Admin.findOne({ email }))
 
-    console.log(user)
     if (!user) {
         throw new UnauthenticatedError('Invalid Credentials')
     }
 
     const isPasswordCorrect = await comparePassword(password, user.password)
 
-    console.log(isPasswordCorrect)
     if (!isPasswordCorrect) {
         throw new UnauthenticatedError('Invalid Credentials')
     }

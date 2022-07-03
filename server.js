@@ -29,7 +29,11 @@ import errorHandlerMiddleware from './middlewares/errorHandler.js'
 import cookieParser from 'cookie-parser'
 import { getDay } from './controllers/trackerController.js'
 import questions from './utils/questions.js'
-import { getPatients, getPatientsEmails } from './controllers/userController.js'
+import {
+    createAdminAccount,
+    getPatients,
+    getPatientsEmails,
+} from './controllers/userController.js'
 import sendMail from './utils/sendMail.js'
 
 app.use(express.json())
@@ -71,7 +75,7 @@ app.use(errorHandlerMiddleware)
 // })
 
 const PORT = process.env.PORT || 5001
-
+createAdminAccount()
 const startServer = async () => {
     try {
         connect(process.env.MONGO_URI)
