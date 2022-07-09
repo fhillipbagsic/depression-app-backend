@@ -76,9 +76,11 @@ const createClinician = async (req, res) => {
     if (clinician) {
         throw new BadRequestError('Clinician is already registered')
     }
+
     req.body.dateAdded = new Date(Date.now())
     req.body.role = 'Clinician'
-    Clinician.create(req.body)
+
+    await Clinician.create(req.body)
 
     res.status(StatusCodes.OK).json({ message: 'Clinician registered' })
 }
