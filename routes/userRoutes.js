@@ -3,6 +3,7 @@ import {
     createClinician,
     createPatient,
     deletePatient,
+    getAdmin,
     getClinician,
     getClinicians,
     getPatient,
@@ -32,14 +33,26 @@ router
 
 router
     .route('/getpatients')
-    .get([authenticateUser, authorizePermission('Clinician')], getPatients) // Add admin authorization
+    .get(
+        [authenticateUser, authorizePermission('Clinician', 'Admin')],
+        getPatients
+    )
 
-router // Add admin authorization
+router
     .route('/clinician')
-    .get([authenticateUser], getClinician)
-    .post([authenticateUser], createClinician)
-    .patch([authenticateUser], updateClinician)
+    .get(
+        [authenticateUser, authorizePermission('Clinician', 'Admin')],
+        getClinician
+    )
+    .post([authenticateUser, authorizePermission('Admin')], createClinician)
+    .patch([authenticateUser, authorizePermission('Admin')], updateClinician)
 
-router.route('/getclinicians').get([authenticateUser], getClinicians) // Add admin authorization
+router
+    .route('/admin')
+    .get([authenticateUser, authorizePermission('Admin')], getAdmin)
+
+router
+    .route('/getclinicians')
+    .get([authenticateUser, authorizePermission('Admin')], getClinicians)
 
 export default router

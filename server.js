@@ -75,7 +75,7 @@ app.use(errorHandlerMiddleware)
 // })
 
 const PORT = process.env.PORT || 5001
-createAdminAccount()
+
 const startServer = async () => {
     try {
         connect(process.env.MONGO_URI)

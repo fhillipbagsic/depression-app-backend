@@ -40,7 +40,7 @@ const updatePatient = async (req, res) => {
 }
 
 const deletePatient = async (req, res) => {
-    const email = req.body.email
+    const email = req.query.email
 
     if (!email) {
         throw new BadRequestError("Please provide patient's email")
@@ -118,6 +118,12 @@ const getClinicians = async (req, res) => {
     res.status(StatusCodes.OK).json({ clinicians })
 }
 
+const getAdmin = async (req, res) => {
+    const admin = await Admin.findOne()
+
+    res.status(StatusCodes.OK).json({ admin })
+}
+
 const getPatientsEmails = async () => {
     const patients = await Patient.find()
     return patients.map((patient) => patient.email)
@@ -151,6 +157,7 @@ export {
     updateClinician,
     getClinician,
     getClinicians,
+    getAdmin,
     getPatientsEmails,
     createAdminAccount,
 }
