@@ -6,15 +6,23 @@ import { hashPassword } from '../utils/validatePassword.js'
 import Admin from '../models/Admin.js'
 
 const createPatient = async (req, res) => {
-    const email = req.body.email
+    const { email, username } = req.body
+
     req.body.role = 'Patient'
     req.body.dateAdded = new Date(Date.now())
     req.body.assignedClinician = req.user.email
 
-    const patient = await Patient.findOne({ email })
+    const patientEmail =
+        (await Patient.findOne({ email })) ||
+        (await Clinician.findOne({ email })) ||
+        (await Admin.findOne({ email }))
+    const patientUsername =
+        (await Patient.findOne({ username })) ||
+        (await Clinician.findOne({ username })) ||
+        (await Admin.findOne({ username }))
 
-    if (patient) {
-        throw new BadRequestError('Patient is already registered')
+    if (patientEmail || patientUsername) {
+        throw new BadRequestError('Email and/or username is already registered')
     }
 
     const hashedPassword = await hashPassword(req.body.password)
@@ -28,7 +36,33 @@ const createPatient = async (req, res) => {
 }
 
 const updatePatient = async (req, res) => {
-    const currentEmail = req.body.currentEmail
+    const { currentEmail, email, username } = req.body
+    // if new email is not the same as current email (user will update the email), check if the new email is already used
+    if (email !== currentEmail) {
+        const isRegistered =
+            (await Patient.findOne({ email })) ||
+            (await Clinician.findOne({ email })) ||
+            (await Admin.findOne({ email }))
+
+        if (isRegistered) {
+            throw new BadRequestError('Email is already used')
+        }
+    }
+
+    const patient = await Patient.findOne({ email: currentEmail })
+
+    // check if username has not changed, if username has changed, check if new username is already used
+    if (username !== patient.username) {
+        const isRegistered =
+            (await Patient.findOne({ username })) ||
+            (await Clinician.findOne({ username })) ||
+            (await Admin.findOne({ username }))
+
+        if (isRegistered) {
+            throw new BadRequestError('Username is already used')
+        }
+    }
+
     const hashedPassword = await hashPassword(req.body.password)
 
     const response = await Patient.updateOne(
@@ -69,12 +103,19 @@ const getPatients = async (req, res) => {
 }
 
 const createClinician = async (req, res) => {
-    const email = req.body.email
+    const { email, username } = req.body
 
-    const clinician = await Clinician.findOne({ email })
+    const clinicianEmail =
+        (await Patient.findOne({ email })) ||
+        (await Clinician.findOne({ email })) ||
+        (await Admin.findOne({ email }))
+    const clinicianUsername =
+        (await Patient.findOne({ username })) ||
+        (await Clinician.findOne({ username })) ||
+        (await Admin.findOne({ username }))
 
-    if (clinician) {
-        throw new BadRequestError('Clinician is already registered')
+    if (clinicianEmail || clinicianUsername) {
+        throw new BadRequestError('Email and/or username is already registered')
     }
 
     req.body.dateAdded = new Date(Date.now())
@@ -86,9 +127,32 @@ const createClinician = async (req, res) => {
 }
 
 const updateClinician = async (req, res) => {
-    const currentEmail = req.body.currentEmail
+    const { currentEmail, email, username } = req.body
     const newEmail = req.body.email
-    const hashedPassword = await hashPassword(req.body.password)
+    // if new email is not the same as current email (user will update the email), check if the new email is already used
+    if (email !== currentEmail) {
+        const isRegistered =
+            (await Patient.findOne({ email })) ||
+            (await Clinician.findOne({ email })) ||
+            (await Admin.findOne({ email }))
+
+        if (isRegistered) {
+            throw new BadRequestError('Email is already used')
+        }
+    }
+
+    const clinician = await Clinician.findOne({ email: currentEmail })
+    // check if username has not changed, if username has changed, check if new username is already used
+    if (username !== clinician.username) {
+        const isRegistered =
+            (await Patient.findOne({ username })) ||
+            (await Clinician.findOne({ username })) ||
+            (await Admin.findOne({ username }))
+
+        if (isRegistered) {
+            throw new BadRequestError('Username is already used')
+        }
+    }
 
     // if email has changed, update first all patient who has the assigned clinician
     if (currentEmail !== newEmail) {
@@ -97,7 +161,7 @@ const updateClinician = async (req, res) => {
             { assignedClinician: newEmail }
         )
     }
-
+    const hashedPassword = await hashPassword(req.body.password)
     const response = await Clinician.updateOne(
         { email: currentEmail },
         { ...req.body, password: hashedPassword }
