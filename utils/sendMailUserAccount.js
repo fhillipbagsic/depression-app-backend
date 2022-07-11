@@ -24,9 +24,7 @@ const sendMailUserAccount = async (toEmail, username, userpassword) => {
 
     transporter.sendMail(mailOptions, (err, res) => {
         if (err) {
-            throw err
-        } else {
-            console.log(res)
+            console.log(err)
         }
     })
 }

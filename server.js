@@ -62,21 +62,8 @@ app.use('/api/tracker', trackerRouter)
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
 
-// const job = schedule.scheduleJob('10 36 5 * * *', async () => {
-//     const questionOfTheDay = questions[await getDay()]
-
-//     // const patients = await getPatientsEmails()
-//     const patients = ['fcbagsic@gmail.com']
-//     if (patients) {
-//         patients.forEach((email) => {
-//             console.log(email)
-//             sendMail(email, questionOfTheDay)
-//         })
-//     }
-// })
-
 const job = new CronJob(
-    '50 58 17 * * *',
+    '10 1 8 * * *',
     async () => {
         const questionOfTheDay = questions[await getDay()]
 
