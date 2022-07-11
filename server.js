@@ -61,7 +61,7 @@ app.use('/api/tracker', trackerRouter)
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
 
-const job = schedule.scheduleJob('13 * * * *', async () => {
+const job = schedule.scheduleJob('23 * * * *', async () => {
     const questionOfTheDay = questions[await getDay()]
 
     // const patients = await getPatientsEmails()
@@ -75,7 +75,7 @@ const job = schedule.scheduleJob('13 * * * *', async () => {
 })
 
 const PORT = process.env.PORT || 5001
-// createAdminAccount()
+
 const startServer = async () => {
     try {
         connect(process.env.MONGO_URI)
