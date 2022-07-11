@@ -43,7 +43,6 @@ const login = async (req, res) => {
     }
 
     const getUser = async (params) => {
-        console.log(params)
         return (
             (await Patient.findOne({ params })) ||
             (await Clinician.findOne({ params })) ||

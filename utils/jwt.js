@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 const createToken = (user) => {
     const token = { email: user.email, role: user.role }
     const jwt = createJWT({ payload: token })
-    console.log(jwt)
+    console.log('1', jwt)
     return { ...token, token: jwt }
 }
 
