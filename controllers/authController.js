@@ -3,7 +3,7 @@ import { UnauthenticatedError, BadRequestError } from '../errors/index.js'
 import Admin from '../models/Admin.js'
 import Clinician from '../models/Clinician.js'
 import Patient from '../models/Patient.js'
-import { attachCookiesToResponse, createToken } from '../utils/jwt.js'
+import { createToken } from '../utils/jwt.js'
 import { comparePassword, hashPassword } from '../utils/validatePassword.js'
 
 const signup = async (req, res) => {
@@ -54,10 +54,8 @@ const login = async (req, res) => {
     }
 
     const token = createToken(user)
-
-    attachCookiesToResponse({ res, user: token })
-
-    res.status(StatusCodes.OK).json({ user: token })
+    // attachCookiesToResponse({ res, user: token })
+    res.status(StatusCodes.OK).json(token)
 }
 
 const logout = async (req, res) => {
