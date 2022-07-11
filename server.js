@@ -8,8 +8,6 @@ import morgan from 'morgan'
 import cors from 'cors'
 import helmet from 'helmet'
 import { rateLimit } from 'express-rate-limit'
-import schedule from 'node-schedule'
-import cloudinary from 'cloudinary'
 import { CronJob } from 'cron'
 
 // express
