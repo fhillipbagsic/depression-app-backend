@@ -61,7 +61,7 @@ app.use('/api/tracker', trackerRouter)
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
 
-const job = schedule.scheduleJob('23 * * * *', async () => {
+const job = schedule.scheduleJob('* 8 * * *', async () => {
     const questionOfTheDay = questions[await getDay()]
 
     // const patients = await getPatientsEmails()
