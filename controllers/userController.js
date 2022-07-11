@@ -4,9 +4,10 @@ import { BadRequestError } from '../errors/index.js'
 import Clinician from '../models/Clinician.js'
 import { hashPassword } from '../utils/validatePassword.js'
 import Admin from '../models/Admin.js'
+import sendMailUserAccount from '../utils/sendMailUserAccount.js'
 
 const createPatient = async (req, res) => {
-    const { email, username } = req.body
+    const { email, username, password } = req.body
 
     req.body.role = 'Patient'
     req.body.dateAdded = new Date(Date.now())
@@ -21,14 +22,20 @@ const createPatient = async (req, res) => {
         (await Clinician.findOne({ username })) ||
         (await Admin.findOne({ username }))
 
-    if (patientEmail || patientUsername) {
-        throw new BadRequestError('Email and/or username is already registered')
+    if (patientEmail) {
+        throw new BadRequestError('Email already registered')
+    }
+
+    if (patientUsername) {
+        throw new BadRequestError('Username is already registered')
     }
 
     const hashedPassword = await hashPassword(req.body.password)
     req.body.password = hashedPassword
 
     const response = await Patient.create(req.body)
+
+    sendMailUserAccount(email, username, password)
 
     res.status(StatusCodes.CREATED).json({
         message: `Patient ${response.firstName} ${response.lastName} has been added`,
@@ -103,7 +110,7 @@ const getPatients = async (req, res) => {
 }
 
 const createClinician = async (req, res) => {
-    const { email, username } = req.body
+    const { email, username, password } = req.body
 
     const clinicianEmail =
         (await Patient.findOne({ email })) ||
@@ -122,7 +129,7 @@ const createClinician = async (req, res) => {
     req.body.role = 'Clinician'
 
     await Clinician.create(req.body)
-
+    sendMailUserAccount(email, username, password)
     res.status(StatusCodes.OK).json({ message: 'Clinician registered' })
 }
 

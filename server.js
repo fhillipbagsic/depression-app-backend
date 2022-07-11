@@ -61,18 +61,18 @@ app.use('/api/tracker', trackerRouter)
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
 
-// const job = schedule.scheduleJob('* 8 * * *', async () => {
-//     const questionOfTheDay = questions[await getDay()]
-
-//     // const patients = await getPatientsEmails()
-//     const patients = ['fcbagsic@gmail.com', 'mangacharmainelilan20@gmail.com']
-//     if (patients) {
-//         patients.forEach((email) => {
-//             console.log(email)
-//             sendMail(email, questionOfTheDay)
-//         })
-//     }
-// })
+const job = schedule.scheduleJob('8 * * * *', async () => {
+    const questionOfTheDay = questions[await getDay()]
+    console.log(questionOfTheDay)
+    // const patients = await getPatientsEmails()
+    const patients = ['fcbagsic@gmail.com']
+    if (patients) {
+        patients.forEach((email) => {
+            console.log(email)
+            sendMail(email, questionOfTheDay)
+        })
+    }
+})
 
 const PORT = process.env.PORT || 5001
 
