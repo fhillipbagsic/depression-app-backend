@@ -32,16 +32,26 @@ const signup = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    const { email, password } = req.body
+    const email = req.body?.email || ''
+    const username = req.body?.username || ''
+    const password = req.body?.password
 
-    if (!email || !password) {
-        throw new BadRequestError('Please provide email and password')
+    if ((!email && !username) || !password) {
+        throw new BadRequestError(
+            'Please provide email or username and password'
+        )
     }
 
-    const user =
-        (await Patient.findOne({ email })) ||
-        (await Clinician.findOne({ email })) ||
-        (await Admin.findOne({ email }))
+    const getUser = async (params) => {
+        console.log(params)
+        return (
+            (await Patient.findOne({ params })) ||
+            (await Clinician.findOne({ params })) ||
+            (await Admin.findOne({ params }))
+        )
+    }
+
+    const user = await getUser(email || username)
 
     if (!user) {
         throw new UnauthenticatedError('Invalid Credentials')
@@ -54,6 +64,7 @@ const login = async (req, res) => {
     }
 
     const token = createToken(user)
+
     // attachCookiesToResponse({ res, user: token })
     res.status(StatusCodes.OK).json(token)
 }
