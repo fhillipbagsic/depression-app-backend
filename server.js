@@ -10,6 +10,7 @@ import helmet from 'helmet'
 import { rateLimit } from 'express-rate-limit'
 import schedule from 'node-schedule'
 import cloudinary from 'cloudinary'
+import { CronJob } from 'cron'
 
 // express
 import express from 'express'
@@ -61,18 +62,37 @@ app.use('/api/tracker', trackerRouter)
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
 
-const job = schedule.scheduleJob('10 36 5 * * *', async () => {
-    const questionOfTheDay = questions[await getDay()]
+// const job = schedule.scheduleJob('10 36 5 * * *', async () => {
+//     const questionOfTheDay = questions[await getDay()]
 
-    // const patients = await getPatientsEmails()
-    const patients = ['fcbagsic@gmail.com']
-    if (patients) {
-        patients.forEach((email) => {
-            console.log(email)
-            sendMail(email, questionOfTheDay)
-        })
-    }
-})
+//     // const patients = await getPatientsEmails()
+//     const patients = ['fcbagsic@gmail.com']
+//     if (patients) {
+//         patients.forEach((email) => {
+//             console.log(email)
+//             sendMail(email, questionOfTheDay)
+//         })
+//     }
+// })
+
+const job = new CronJob(
+    '50 58 17 * * *',
+    async () => {
+        const questionOfTheDay = questions[await getDay()]
+
+        // const patients = await getPatientsEmails()
+        const patients = ['fcbagsic@gmail.com']
+        if (patients) {
+            patients.forEach((email) => {
+                console.log(email)
+                sendMail(email, questionOfTheDay)
+            })
+        }
+    },
+    null,
+    true,
+    'Asia/Manila'
+)
 
 const PORT = process.env.PORT || 5001
 
