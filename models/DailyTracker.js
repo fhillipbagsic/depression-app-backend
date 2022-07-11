@@ -27,19 +27,12 @@ const DailyTrackerSchema = new mongoose.Schema({
         required: [true, 'Please assign triggers'],
     },
     physicalSymptoms: {
-        type: [
-            {
-                symptom: { type: String },
-                has: { type: Boolean },
-            },
-        ],
+        type: String,
         required: [true, 'Please assign physical symptoms'],
     },
     others: {
-        type: {
-            has: { type: Boolean },
-            symptom: { type: String },
-        },
+        type: String,
+        required: [true, 'Please assign others'],
     },
     concentrationOrFocus: {
         type: Number,

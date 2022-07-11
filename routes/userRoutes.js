@@ -45,7 +45,10 @@ router
         getClinician
     )
     .post([authenticateUser, authorizePermission('Admin')], createClinician)
-    .patch([authenticateUser, authorizePermission('Admin')], updateClinician)
+    .patch(
+        [authenticateUser, authorizePermission('Clinician', 'Admin')],
+        updateClinician
+    )
 
 router
     .route('/admin')
