@@ -8,8 +8,6 @@ import questions from '../utils/questions.js'
 const dailyTracker = async (req, res) => {
     const email = req.user.email
 
-    console.log(req.body)
-
     const response = await DailyTracker.create({ ...req.body, email })
 
     res.status(StatusCodes.OK).json({ message: 'ok' })

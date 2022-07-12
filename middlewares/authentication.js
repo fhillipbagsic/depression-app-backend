@@ -2,7 +2,7 @@ import { UnauthenticatedError, UnauthorizedError } from '../errors/index.js'
 import { isTokenValid } from '../utils/jwt.js'
 
 const authenticateUser = async (req, res, next) => {
-    const token = req.body.token
+    const token = req.body.token || req.query.token
 
     if (!token) {
         throw new UnauthenticatedError('Authentication Invalid no token')

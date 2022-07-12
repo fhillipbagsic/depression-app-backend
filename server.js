@@ -69,7 +69,6 @@ const job = new CronJob(
         const patients = ['fcbagsic@gmail.com']
         if (patients) {
             patients.forEach((email) => {
-                console.log(email)
                 sendMail(email, questionOfTheDay)
             })
         }

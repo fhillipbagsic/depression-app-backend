@@ -127,6 +127,8 @@ const createClinician = async (req, res) => {
 
     req.body.dateAdded = new Date(Date.now())
     req.body.role = 'Clinician'
+    const hashedPassword = await hashPassword(password)
+    req.body.password = hashedPassword
 
     await Clinician.create(req.body)
     sendMailUserAccount(email, username, password)
@@ -198,7 +200,7 @@ const getAdmin = async (req, res) => {
 }
 
 const getPatientsEmails = async () => {
-    const patients = await Patient.find()
+    const patients = (await Patient.find()) || []
     return patients.map((patient) => patient.email)
 }
 
