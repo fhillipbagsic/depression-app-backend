@@ -42,16 +42,24 @@ const login = async (req, res) => {
         )
     }
 
-    const getUser = async (params) => {
+    const getUser = async () => {
+        const search_query = {}
+        if (email) {
+            search_query.email = email
+        } else {
+            search_query.username = username
+        }
+
         return (
-            (await Patient.findOne({ params })) ||
-            (await Clinician.findOne({ params })) ||
-            (await Admin.findOne({ params }))
+            (await Patient.findOne(search_query)) ||
+            (await Clinician.findOne(search_query)) ||
+            (await Admin.findOne(search_query))
         )
     }
 
     const user = await getUser(email || username)
 
+    console.log(user)
     if (!user) {
         throw new UnauthenticatedError('Invalid Credentials')
     }
@@ -87,7 +95,8 @@ const changePassword = async (req, res) => {
     }
     const user =
         (await Patient.findOne({ email })) ||
-        (await Clinician.findOne({ email }))
+        (await Clinician.findOne({ email })) ||
+        (await Admin.findOne({ email }))
 
     const isPasswordCorrect = await comparePassword(oldPassword, user.password)
 
@@ -104,6 +113,11 @@ const changePassword = async (req, res) => {
         )
     } else if (user.role === 'Clinician') {
         const resp = await Clinician.updateOne(
+            { email },
+            { password: hashedPassword }
+        )
+    } else if (user.role === 'Admin') {
+        const resp = await Admin.updateOne(
             { email },
             { password: hashedPassword }
         )
