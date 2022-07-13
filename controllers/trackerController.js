@@ -8,9 +8,25 @@ import questions from '../utils/questions.js'
 const dailyTracker = async (req, res) => {
     const email = req.user.email
 
-    const response = await DailyTracker.create({ ...req.body, email })
+    // check first if user has already logged for today
+    const date = new Date(Date.now())
 
-    res.status(StatusCodes.OK).json({ message: 'ok' })
+    const searchDate = date.toDateString().split(' ').slice(0, 5).join(' ')
+
+    const dailyTracker = await DailyTracker.find({
+        date: new RegExp(searchDate),
+        email,
+    })
+
+    if (dailyTracker.length !== 0) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+            message: "Patient has already logged today's daily tracker",
+        })
+    }
+
+    // const response = await DailyTracker.create({ ...req.body, email })
+
+    res.status(StatusCodes.OK).json({ message: 'Daily tracker added' })
 }
 
 const getDailyTracker = async (req, res) => {
@@ -23,12 +39,27 @@ const getDailyTracker = async (req, res) => {
 
 const healthHabit = async (req, res) => {
     const email = req.user.email
+
     const { question, answer } = req.body
     if (!question || !answer) {
         throw new BadRequestError('Please provide question and answer')
     }
 
+    // check first if user has already logged for today
     const date = new Date(Date.now())
+
+    const searchDate = date.toDateString().split(' ').slice(0, 5).join(' ')
+
+    const healthHabit = await HealthHabit.find({
+        email,
+        date: new RegExp(searchDate),
+    })
+
+    if (healthHabit.length !== 0) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+            message: "Patient has already logged today's health habit",
+        })
+    }
 
     const response = await HealthHabit.create({
         email,
@@ -43,7 +74,10 @@ const healthHabit = async (req, res) => {
 const getHealthHabit = async (req, res) => {
     const email = req.query.email
 
-    const healthHabits = await HealthHabit.find({ email })
+    const healthHabits = await HealthHabit.find({
+        email,
+        date: new RegExp(searchDate),
+    })
 
     res.status(StatusCodes.OK).json({ healthHabits })
 }
