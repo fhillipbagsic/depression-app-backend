@@ -20,7 +20,11 @@ const signup = async (req, res) => {
 
     const hashedPassword = await hashPassword(password)
     req.body.password = hashedPassword
-    req.body.dateAdded = new Date(Date.now())
+    const date = new Date(Date.now())
+    const adjustedDate = adjustedDate.toLocaleString('en-US', {
+        timeZone: 'Asia/Manila',
+    })
+    req.body.dateAdded = new Date(adjustedDate)
 
     if (role === 'Patient') {
         Patient.create(req.body)

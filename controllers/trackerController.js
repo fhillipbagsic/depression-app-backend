@@ -14,7 +14,7 @@ const dailyTracker = async (req, res) => {
         timeZone: 'Asia/Manila',
     })
 
-    const searchDate = adjustedDate
+    const searchDate = new Date(adjustedDate)
         .toDateString()
         .split(' ')
         .slice(0, 5)
@@ -60,7 +60,7 @@ const healthHabit = async (req, res) => {
         timeZone: 'Asia/Manila',
     })
 
-    const searchDate = adjustedDate
+    const searchDate = new Date(adjustedDate)
         .toDateString()
         .split(' ')
         .slice(0, 5)
