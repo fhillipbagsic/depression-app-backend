@@ -59,7 +59,6 @@ const login = async (req, res) => {
 
     const user = await getUser(email || username)
 
-    console.log(user)
     if (!user) {
         throw new UnauthenticatedError('Invalid Credentials')
     }
