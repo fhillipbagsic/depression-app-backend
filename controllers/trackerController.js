@@ -24,7 +24,9 @@ const dailyTracker = async (req, res) => {
         })
     }
 
-    // const response = await DailyTracker.create({ ...req.body, email })
+    req.body.date = new Date(Date.now())
+
+    const response = await DailyTracker.create({ ...req.body, email })
 
     res.status(StatusCodes.OK).json({ message: 'Daily tracker added' })
 }
