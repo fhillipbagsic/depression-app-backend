@@ -188,6 +188,11 @@ const adminExcel = async (req, res) => {
 
     const clinician = [await Clinician.findOne({ email }).lean()]
 
+    if (clinician.length === 0) {
+        res.status(StatusCodes.BAD_REQUEST).json({
+            message: 'Clinician not found',
+        })
+    }
     const worksheet = workbook.addWorksheet('Clinician')
 
     const worksheetHeadings = [
@@ -583,7 +588,7 @@ const adminPDF = async (req, res) => {
 
     if (!clinician) {
         res.status(StatusCodes.BAD_REQUEST).json({
-            message: 'Clinician not fount',
+            message: 'Clinician not found',
         })
     }
     // console.log(clinician.picture)
