@@ -15,7 +15,7 @@ const DailyTrackerSchema = new mongoose.Schema({
         required: [true, 'Please assign woke up at'],
     },
     totalHours: {
-        type: Number,
+        type: String,
         required: [true, 'Please assign total hours'],
     },
     moodOrFeelings: {
@@ -32,10 +32,9 @@ const DailyTrackerSchema = new mongoose.Schema({
     },
     others: {
         type: String,
-        required: [true, 'Please assign others'],
     },
     concentrationOrFocus: {
-        type: Number,
+        type: String,
         required: [true, 'Please assign concentration or focus'],
     },
     socialEngagement: {
