@@ -96,7 +96,7 @@ const patientExcel = async (req, res) => {
 
     const url = await cloudinary.v2.uploader
         .upload('utils/excel/export_patient_data.xlsx', {
-            upload_preset: 'oqozctfv',
+            upload_preset: 'xjutxivn',
             resource_type: 'auto',
             folder: 'Excel',
         })
@@ -165,7 +165,7 @@ const clinicianExcel = async (req, res) => {
 
     const url = await cloudinary.v2.uploader
         .upload('utils/excel/export_clinician_patients_data.xlsx', {
-            upload_preset: 'oqozctfv',
+            upload_preset: 'xjutxivn',
             resource_type: 'auto',
             folder: 'Excel',
         })
@@ -236,7 +236,7 @@ const adminExcel = async (req, res) => {
 
     const url = await cloudinary.v2.uploader
         .upload('utils/excel/export_clinician_data.xlsx', {
-            upload_preset: 'oqozctfv',
+            upload_preset: 'xjutxivn',
             resource_type: 'auto',
             folder: 'Excel',
         })
@@ -455,7 +455,7 @@ const patientPDF = async (req, res) => {
 
     const url = await cloudinary.v2.uploader
         .upload('utils/pdf/export_patient_data.pdf', {
-            upload_preset: 'oqozctfv',
+            upload_preset: 'xjutxivn',
             resource_type: 'auto',
             folder: 'Pdf',
         })
@@ -560,7 +560,7 @@ const clinicianPDF = async (req, res) => {
 
     const url = await cloudinary.v2.uploader
         .upload('utils/pdf/export_clinician_patients_data.pdf', {
-            upload_preset: 'oqozctfv',
+            upload_preset: 'xjutxivn',
             resource_type: 'auto',
             folder: 'Pdf',
         })
@@ -685,7 +685,7 @@ const adminPDF = async (req, res) => {
 
     const url = await cloudinary.v2.uploader
         .upload('utils/pdf/export_clinician_data.pdf', {
-            upload_preset: 'oqozctfv',
+            upload_preset: 'xjutxivn',
             resource_type: 'auto',
             folder: 'Pdf',
         })

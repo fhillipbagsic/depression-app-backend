@@ -41,9 +41,9 @@ app.use(express.json())
 app.use(cookieParser(process.env.JWT_SECRET))
 
 cloudinary.config({
-    cloud_name: 'desimscj8',
-    api_key: '189282662469691',
-    api_secret: 'cFPEZ9Gc74ASxBRaNsXDjoH1_bI',
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
     secure: true,
 })
 
