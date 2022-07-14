@@ -10,8 +10,15 @@ const dailyTracker = async (req, res) => {
 
     // check first if user has already logged for today
     const date = new Date(Date.now())
+    const adjustedDate = date.toLocaleString('en-US', {
+        timeZone: 'Asia/Manila',
+    })
 
-    const searchDate = date.toDateString().split(' ').slice(0, 5).join(' ')
+    const searchDate = adjustedDate
+        .toDateString()
+        .split(' ')
+        .slice(0, 5)
+        .join(' ')
 
     const dailyTracker = await DailyTracker.find({
         date: new RegExp(searchDate),
@@ -24,7 +31,7 @@ const dailyTracker = async (req, res) => {
         })
     }
 
-    req.body.date = new Date(Date.now())
+    req.body.date = new Date(adjustedDate)
 
     const response = await DailyTracker.create({ ...req.body, email })
 
@@ -49,8 +56,15 @@ const healthHabit = async (req, res) => {
 
     // check first if user has already logged for today
     const date = new Date(Date.now())
+    const adjustedDate = date.toLocaleString('en-US', {
+        timeZone: 'Asia/Manila',
+    })
 
-    const searchDate = date.toDateString().split(' ').slice(0, 5).join(' ')
+    const searchDate = adjustedDate
+        .toDateString()
+        .split(' ')
+        .slice(0, 5)
+        .join(' ')
 
     const healthHabit = await HealthHabit.find({
         email,
@@ -67,7 +81,7 @@ const healthHabit = async (req, res) => {
         email,
         question,
         answer,
-        date,
+        date: new Date(adjustedDate),
     })
 
     res.status(StatusCodes.OK).json({ message: 'Health habit created' })
@@ -92,6 +106,9 @@ const questionOfTheDay = async (req, res) => {
 
 const getDay = async () => {
     const currentDate = new Date(Date.now())
+    const adjustedDate = currentDate.toLocaleString('en-US', {
+        timeZone: 'Asia/Manila',
+    })
 
     const response = await CurrentDay.findOne()
 
@@ -99,7 +116,7 @@ const getDay = async () => {
     const date = new Date(await response.currentDate)
 
     // if date is not the same as current date, update the currentDay
-    if (date.getDate() !== currentDate.getDate()) {
+    if (date.getDate() !== adjustedDate.getDate()) {
         day = day === 74 ? 0 : day + 1
 
         const response = await CurrentDay.findOneAndUpdate(

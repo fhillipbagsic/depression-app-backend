@@ -287,6 +287,7 @@ const patientPDF = async (req, res) => {
 
     healthHabits.forEach((val) => {
         const objectDate = new Date(val.date)
+
         const stringDate = `${days[objectDate.getDay()]} - ${
             months[objectDate.getMonth()]
         } ${String(objectDate.getDate())}, ${String(objectDate.getFullYear())}`
@@ -298,6 +299,7 @@ const patientPDF = async (req, res) => {
         }
     })
 
+    console.log(entries)
     const printer = new PdfPrinter(fonts)
 
     const text = [

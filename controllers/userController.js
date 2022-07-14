@@ -10,7 +10,11 @@ const createPatient = async (req, res) => {
     const { email, username, password } = req.body
 
     req.body.role = 'Patient'
-    req.body.dateAdded = new Date(Date.now())
+    const date = new Date(Date.now())
+    const adjustedDate = date.toLocaleString('en-US', {
+        timeZone: 'Asia/Manila',
+    })
+    req.body.dateAdded = new Date(adjustedDate)
     req.body.assignedClinician = req.user.email
 
     const patientEmail =
@@ -125,7 +129,11 @@ const createClinician = async (req, res) => {
         throw new BadRequestError('Email and/or username is already registered')
     }
 
-    req.body.dateAdded = new Date(Date.now())
+    const date = new Date(Date.now())
+    const adjustedDate = date.toLocaleString('en-US', {
+        timeZone: 'Asia/Manila',
+    })
+    req.body.dateAdded = new Date(adjustedDate)
     req.body.role = 'Clinician'
     const hashedPassword = await hashPassword(password)
     req.body.password = hashedPassword
