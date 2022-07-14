@@ -78,7 +78,6 @@ const getHealthHabit = async (req, res) => {
 
     const healthHabits = await HealthHabit.find({
         email,
-        date: new RegExp(searchDate),
     })
 
     res.status(StatusCodes.OK).json({ healthHabits })
