@@ -1,7 +1,11 @@
 import 'express-async-errors'
+import { fileURLToPath } from 'url'
+import path, { dirname } from 'path'
 import env from 'dotenv'
 
 env.config()
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 // packages
 import morgan from 'morgan'
@@ -61,12 +65,16 @@ app.use(
 app.use(helmet())
 app.use(rateLimit({ windowMs: 60 * 1000, max: 150 }))
 
-app.get('/', (req, res) => res.send('Depression App API'))
-
 app.use('/api/auth', authRouter)
 app.use('/api/users', userRouter)
 app.use('/api/tracker', trackerRouter)
 app.use('/api/export', exportRouter)
+
+app.use(express.static(path.resolve(__dirname, './client/build')))
+
+app.get('*', function (req, res) {
+    res.sendFile(path.resolve(__dirname, './client/build', 'index.html'))
+})
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)

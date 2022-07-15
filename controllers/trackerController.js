@@ -60,9 +60,6 @@ const healthHabit = async (req, res) => {
         timeZone: 'Asia/Manila',
     })
 
-    console.log(date.toString())
-    console.log(adjustedDate.toString())
-
     const searchDate = new Date(adjustedDate)
         .toDateString()
         .split(' ')

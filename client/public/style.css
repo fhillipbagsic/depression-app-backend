@@ -1,0 +1,941 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Quattrocento Sans", sans-serif;
+}
+
+:root {
+  --green: #caffe3;
+  --dgreen: #009947;
+  --blue: #d3f8ff;
+  --dblue: #03aacc;
+  --yellow: #fffece;
+  --dyellow: rgb(212, 209, 0);
+  --pink: #ffd4e5;
+  --dpink: #ff68a5;
+  --vio: #fad3ff;
+  --dvio: #e839ff;
+  --fullwidth: 100%;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.regform {
+  width: 100%;
+  min-height: 100vh;
+  padding: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #61dafb;
+}
+
+.cont {
+  padding: 0px;
+  width: 100%;
+}
+
+.track-form {
+  width: 100%;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  /* background: repeating-linear-gradient(
+    var(--blue),
+    var(--pink),
+    var(--yellow)
+    #5fe4ff
+   
+  ); */
+  background-color: var(--blue);
+}
+
+.back-reg-btn {
+  padding-top: 20px;
+  background-color: var(--pink);
+}
+
+.changePass-form {
+  width: 100%;
+  min-height: 100vh;
+  padding: 50px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e65d5d;
+}
+
+.formBox {
+  background-color: white;
+  padding: 50px;
+}
+
+.login_form {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #61dafb;
+}
+
+.formRegBox {
+  padding: 6% 5%;
+  width: 100%;
+}
+
+.nav {
+  background-color: var(--yellow);
+}
+
+#company-name {
+  color: var(--dblue);
+}
+
+span {
+  /* color: #ff80b3; */
+  color: var(--dblue);
+}
+
+.img-responsive_ {
+  border-radius: 50%;
+}
+
+.nav-align {
+  display: flex;
+  align-items: center;
+}
+
+#name-left::after {
+  display: none !important;
+}
+
+#focus {
+  width: 100%;
+}
+
+#focus::after {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  bottom: 50%;
+  margin-right: 2%;
+}
+
+#submit-dt {
+  width: 100%;
+}
+
+@media all and (max-width: 1000px) {
+  .img-responsive_ {
+    display: none;
+    padding: 0px;
+  }
+
+  .nav-link {
+    padding: 0px;
+  }
+
+  .nav-align {
+    display: unset;
+    align-items: unset;
+  }
+}
+
+/* row margin */
+.row-dt,
+.row-hh,
+.row-pass {
+  margin-top: 15px;
+}
+
+.row-submit-cancel {
+  margin-top: 30px;
+}
+.sub-btn {
+  width: 100%;
+}
+
+.track-choice {
+  width: 50%;
+  border-radius: 0;
+}
+.btn-choice {
+  width: 100%;
+  border-radius: 0;
+}
+
+#cont-hh {
+  display: none;
+}
+
+#viewHH_btn {
+  background-color: white;
+  color: var(--dblue);
+  border-color: #d3f8ff;
+}
+
+#viewDT_btn {
+  background-color: #a1efff;
+  border-color: #a1efff;
+  color: #03aacc;
+}
+
+#submit-hh {
+  margin-top: 15px;
+  background-color: #aaffd2;
+  border-color: #aaffd2;
+  color: #009947;
+}
+
+#submit-dt {
+  background-color: #aaffd2;
+  border-color: #aaffd2;
+  color: #009947;
+}
+
+#cancel-dt {
+  /* background-color: var(--pink);
+  border-color: #eeeeee;
+  color: #5f5f5f; */
+  background-color: #aaffd2;
+  border-color: #aaffd2;
+  color: #009947;
+  width: 100%;
+}
+
+#home_nav {
+  color: rgb(194, 194, 194);
+}
+
+.btn-dt-hh {
+  margin-bottom: 35px;
+}
+
+#focus {
+  text-align: left;
+}
+.dropdown-toggle::after {
+  display: none !important;
+}
+/* login */
+
+.login-bg {
+  width: 100%;
+  min-height: 100vh;
+  padding: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--blue);
+}
+
+.home-bg {
+  width: 100%;
+  min-height: 100vh;
+  padding: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--yellow);
+}
+
+.login-form {
+  background-color: #fff;
+  padding: 50px;
+  max-width: 500px;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+.home-logName {
+  border-radius: 10px;
+  background-color: var(--vio);
+  border-radius: 50%;
+  width: 500px;
+}
+
+#homeImg {
+  animation-name: imgzoom;
+  animation-duration: 4s;
+}
+
+@keyframes imgzoom {
+  0% {
+    width: 30%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+#login_btn {
+  background-color: #61dafb;
+  border-color: var(--dblue);
+  color: #fff;
+  width: 100%;
+}
+
+#login_btn:hover {
+  background-color: #0397b4;
+  border-color: var(--dblue);
+  color: #fff;
+}
+
+/* Emovault Form */
+.form-container {
+  width: 100%;
+}
+.emv-bg,
+.changepass-bg,
+.profile-bg {
+  width: 100%;
+  min-height: 100vh;
+  padding: 50px;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  background-color: var(--blue);
+}
+
+.form-container {
+  width: 100%;
+  padding: 30px;
+}
+
+.profile-bg {
+  padding: 3% 1% 1% 1%;
+  margin: auto;
+}
+#emv-btn-hh,
+#emv-btn-dt,
+.journal-btn-dt,
+.journal-btn-hh {
+  width: 100%;
+  padding: 0.5%;
+}
+
+#col,
+#col2 {
+  padding: 0;
+}
+
+#emv-btn-dt {
+  background-color: #a1efff;
+  border-style: solid;
+  border-width: 2px;
+  color: var(--dblue);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-color: #a1efff;
+}
+
+.journal-btn-dt {
+  background-color: var(--vio);
+  border-style: solid;
+  border-width: 2px 1px 2px 2px;
+  color: var(--dvio);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-color: var(--dvio);
+}
+
+.journal-btn-hh {
+  background-color: rgb(255, 255, 255);
+  border-color: var(--dvio);
+  border-style: solid;
+  border-width: 2px 2px 2px 1px;
+  color: var(--dvio);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+#emv-btn-hh {
+  background-color: #fff;
+  border-color: #ffffff;
+  border-style: solid;
+  border-width: 2px;
+  color: var(--dblue);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+#focus {
+  background-color: rgb(255, 255, 255);
+  color: #000;
+  border: none;
+}
+
+#focus-item {
+  width: 100%;
+}
+
+.emo-dt-cancel-submit {
+  width: 100%;
+}
+
+#emo-dt-cancel,
+#emo-dt-submit,
+#emo-hh-cancel,
+#emo-hh-submit {
+  width: 100%;
+  background-color: #aaffd2;
+  border-color: #aaffd2;
+  color: #009947;
+  outline: none;
+  box-shadow: none;
+}
+
+#hh-form {
+  display: none;
+}
+
+.popup-message-inside {
+  position: absolute;
+  max-width: 90%;
+  height: 50%;
+  top: 50%;
+  left: 50%;
+  background-color: rgb(255, 255, 255);
+  transform: translate(-50%, -50%);
+  z-index: 999;
+}
+
+/* Change Pass
+ */
+#changepass-change-btn,
+#changepass-cancel-btn {
+  width: 100%;
+}
+
+#changepass-change-btn {
+  background-color: #a1efff;
+  border-color: #a1efff;
+  color: var(--dblue);
+}
+
+#changepass-cancel-btn {
+  background-color: #fff;
+  border-color: #a1efff;
+  color: var(--dblue);
+}
+
+.changepass-form {
+  padding: 0;
+}
+
+.passwordImage {
+  max-width: 100%;
+  width: 100%;
+  margin: auto;
+}
+
+#left-arrow {
+  margin-right: 5px;
+}
+
+.profileImage {
+  width: 30%;
+  border-radius: 50%;
+}
+
+.col.name-input-img {
+  width: 100%;
+}
+
+.profile-form {
+  width: 100%;
+
+  padding: 0 50px;
+}
+
+.username-pass {
+  width: 50%;
+}
+
+.profile-back-btn {
+  border-style: solid;
+  padding: 2px 10px;
+  border-width: 2px;
+  border-radius: 5px;
+  border-color: var(--dblue);
+  color: var(--dblue);
+  background-color: #a1efff;
+  cursor: pointer;
+}
+
+.um-back-btn {
+  border-style: solid;
+  padding: 2px 10px;
+  border-width: 2px;
+  border-radius: 5px;
+  border-color: var(--dvio);
+  color: var(--dvio);
+  background-color: var(--vio);
+  cursor: pointer;
+}
+
+.cl-add-btn {
+  border-style: solid;
+  padding: 2px 10px;
+  border-width: 2px;
+  border-radius: 5px;
+  border-color: var(--dyellow);
+  color: var(--dyellow);
+  background-color: var(--yellow);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.back-cont {
+  text-align: right;
+}
+
+/* .searchIcon {
+  
+  place-items: center;
+}
+
+ */
+
+.searchicon {
+  display: grid;
+  place-items: center;
+  margin: auto;
+}
+
+#icon-cont {
+  background-color: #fff;
+}
+
+#searchinput {
+  border-left-style: none;
+  outline: none;
+  box-shadow: none;
+}
+
+#searchinput:focus {
+  border-color: #ced4da;
+}
+
+#search-btn {
+  background-color: var(--vio);
+  color: var(--dvio);
+  border: none;
+}
+
+#cl-search-btn {
+  background-color: var(--yellow);
+  color: var(--dyellow);
+  border: none;
+}
+
+#lc-search-btn {
+  background-color: var(--green);
+  color: var(--dgreen);
+  border: none;
+}
+
+#g {
+  padding: 0;
+}
+
+.tableBtn-view,
+.tableBtn-pdf,
+.tableBtn-excel,
+.tableBtn-print {
+  margin: 0 2px;
+  outline: none;
+  box-shadow: none;
+}
+
+.clinicians-tb-in,
+.adduser-tb-in {
+  width: 100%;
+  padding: 0 50px;
+}
+
+.clinicians-tb-bg {
+  width: 100%;
+  min-height: 100vh;
+  padding: 50px;
+}
+
+.adduser-tb-bg {
+  width: 100%;
+  min-height: 100vh;
+  padding: 50px;
+}
+
+.journal-back-cont {
+  text-align: right;
+}
+
+.journal-back-btn {
+  border-style: solid;
+  padding: 2px 10px;
+  border-width: 2px;
+  border-radius: 5px;
+  border-color: var(--dvio);
+  color: var(--dvio);
+  cursor: pointer;
+}
+
+.lc-back-btn {
+  border-style: solid;
+  padding: 2px 10px;
+  border-width: 2px;
+  border-radius: 5px;
+  border-color: var(--dgreen);
+  color: var(--dgreen);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.ca-back-btn {
+  border-style: solid;
+  padding: 2px 10px;
+  border-width: 2px;
+  border-radius: 5px;
+  border-color: var(--dyellow);
+  color: var(--dyellow);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.clinician-journal-bg {
+  width: 100%;
+  min-height: 100vh;
+  padding: 50px;
+}
+
+.clinician-journal-in {
+  width: 100%;
+  padding: 0 50px;
+}
+
+#hh-journal {
+  display: none;
+}
+
+.navUser {
+  background-color: var(--yellow);
+}
+
+.deleteOption,
+.updateClientIn {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 50px;
+  z-index: 100;
+  background-color: #fff;
+  border-radius: 20px;
+  outline: none;
+  box-shadow: none;
+}
+
+.deleteOptionCont,
+.updateClientBg {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+}
+
+.react-calendar {
+  width: 100%;
+  max-width: 100%;
+  background: rgb(255, 255, 255);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.125em;
+  margin: auto;
+  border: 0;
+  padding: 3%;
+}
+.react-calendar--doubleView {
+  width: 100%;
+}
+.react-calendar--doubleView .react-calendar__viewContainer {
+  display: flex;
+  margin: -0.5em;
+}
+.react-calendar--doubleView .react-calendar__viewContainer > * {
+  width: 100%;
+  margin: 0.5em;
+}
+.react-calendar,
+.react-calendar *,
+.react-calendar *:before,
+.react-calendar *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.react-calendar button {
+  margin: 0;
+  border: 0;
+  outline: none;
+  width: 100%;
+  padding: 30px;
+}
+.react-calendar button:enabled:hover {
+  cursor: pointer;
+}
+.react-calendar__navigation {
+  height: 100%;
+  margin-bottom: 0;
+}
+.react-calendar__navigation button {
+  min-width: 44px;
+  background: none;
+}
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  background-color: #e6e6e6;
+}
+.react-calendar__navigation button[disabled] {
+  background-color: #f0f0f0;
+}
+.react-calendar__month-view__weekdays {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.75em;
+  width: 100%;
+}
+.react-calendar__month-view__days {
+  border-style: solid;
+  border-width: 0px 2px 2px;
+  border-color: var(--dblue);
+}
+.react-calendar__month-view__weekdays {
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--dblue);
+}
+.react-calendar__month-view__weekdays__weekday {
+  padding: 0.5em;
+  border-style: solid;
+  border-width: 1px;
+  padding: 30px 0;
+  background-color: var(--blue);
+  border-color: var(--dblue);
+  color: var(--dblue);
+}
+.react-calendar__month-view__weekNumbers {
+  font-weight: bold;
+}
+.react-calendar__month-view__weekNumbers .react-calendar__tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75em;
+  padding: calc(0.75em / 0.75) calc(0.5em / 0.75);
+}
+.react-calendar__month-view__days__day--weekend {
+  color: #d10000;
+}
+.react-calendar__month-view__days__day--neighboringMonth {
+  color: #757575;
+}
+.react-calendar__year-view .react-calendar__tile,
+.react-calendar__decade-view .react-calendar__tile,
+.react-calendar__century-view .react-calendar__tile {
+  padding: 2em 0.5em;
+}
+.react-calendar__tile {
+  max-width: 100%;
+  text-align: center;
+  background: none;
+  padding: 30px;
+}
+.react-calendar__tile:disabled {
+  background-color: #f0f0f0;
+}
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background-color: var(--yellow);
+}
+.react-calendar__tile--now {
+  background: var(--yellow);
+}
+.react-calendar__tile--now:enabled:hover,
+.react-calendar__tile--now:enabled:focus {
+  background: var(--yellow);
+}
+.react-calendar__tile--hasActive {
+  background: var(--yellow);
+}
+.react-calendar__tile--hasActive:enabled:hover,
+.react-calendar__tile--hasActive:enabled:focus {
+  background: var(--yellow);
+}
+.react-calendar__tile--active {
+  background: var(--yellow);
+}
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background: var(--yellow);
+}
+.react-calendar--selectRange .react-calendar__tile--hover {
+  background-color: #e6e6e6;
+}
+
+.dropdown-menu.show.dropdown-menu-end {
+  margin-top: 20%;
+  width: fit-content;
+}
+
+button.react-calendar__navigation__arrow.react-calendar__navigation__prev2-button,
+button.react-calendar__navigation__arrow.react-calendar__navigation__prev-button,
+button.react-calendar__navigation__arrow.react-calendar__navigation__next-button,
+button.react-calendar__navigation__arrow.react-calendar__navigation__next2-button {
+  width: 10%;
+  background-color: var(--blue);
+  color: var(--dblue);
+  font-size: 40px;
+  border-style: solid;
+}
+
+button.react-calendar__navigation__label {
+  width: 60%;
+
+  margin-bottom: 2px;
+}
+
+.react-calendar__navigation button:enabled:hover,
+button.react-calendar__navigation__label:hover {
+  background-color: white;
+}
+
+button.react-calendar__navigation__arrow.react-calendar__navigation__prev-button:hover,
+button.react-calendar__navigation__arrow.react-calendar__navigation__prev2-button:hover,
+button.react-calendar__navigation__arrow.react-calendar__navigation__next-button:hover,
+button.react-calendar__navigation__arrow.react-calendar__navigation__next2-button:hover {
+  width: 10%;
+  background-color: var(--blue);
+  color: var(--dblue);
+  font-size: 40px;
+}
+
+.nav-item.show.dropdown {
+  margin: 0;
+  width: 100%;
+}
+.nav-item.dropdown {
+  margin: auto;
+}
+
+#cpForm {
+  width: 40%;
+  margin: auto;
+}
+
+@media screen and (max-width: 990px) {
+  .dropdown-menu.show.dropdown-menu-end {
+    margin: 0;
+  }
+
+  #avatar {
+    display: none;
+  }
+  .nav-item.dropdown {
+    margin: 0;
+  }
+  .passwordImage {
+    display: none;
+  }
+  #cpForm {
+    width: 100%;
+  }
+}
+
+#addNewClient,
+#backDT {
+  text-decoration: none;
+  padding: 5px 7px;
+  background-color: var(--vio);
+}
+
+#addNewClient:hover,
+#backDT:hover {
+  text-decoration: none;
+  color: var(--dvio);
+}
+
+input[type="file"] {
+  color: rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0, 0);
+  border-color: rgba(0, 0, 0, 0);
+}
+
+input[type="file"]:focus {
+  color: rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0, 0);
+  border-color: rgba(0, 0, 0, 0);
+}
+
+#inputImage:active {
+  outline: none;
+}
+
+input#checkResize,
+input#checkResize1,
+input#checkResize2 {
+  width: 40px;
+  height: 40px;
+  margin: auto;
+  margin-right: 10px;
+}
+
+input#cert1,
+input#cert2,
+input#cert3 {
+  width: 40px;
+  height: 40px;
+  margin: auto;
+  margin-right: 10px;
+}
