@@ -5,10 +5,10 @@
     "main": "server.js",
     "type": "module",
     "scripts": {
-        "start": "cd client && npm install && npm run build",
+        "heroku-postbuild": "cd client && npm install && npm run build",
         "server": "node server.js",
         "develop": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start\"",
-        "heroku-postbuild": "concurrently --kill-others-on-fail \"npm run server\" && \"npm run start\""
+        "start": "concurrently --kill-others-on-fail \"npm run server\" && \"npm run start\""
     },
     "keywords": [],
     "author": "",
