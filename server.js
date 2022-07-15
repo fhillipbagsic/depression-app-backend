@@ -56,13 +56,8 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // securities
-app.use(
-    cors({
-        origin: true,
-        credentials: true,
-    })
-)
-app.use(helmet())
+app.use(cors())
+// app.use(helmet())
 app.use(rateLimit({ windowMs: 60 * 1000, max: 150 }))
 
 app.use('/api/auth', authRouter)
@@ -70,10 +65,10 @@ app.use('/api/users', userRouter)
 app.use('/api/tracker', trackerRouter)
 app.use('/api/export', exportRouter)
 
-app.use(express.static(path.resolve(__dirname, '/client/build')))
+app.use(express.static(path.resolve(__dirname, './client/build')))
 
 app.get('*', function (req, res) {
-    res.sendFile(path.resolve(__dirname, '/client/build', 'index.html'))
+    res.sendFile(path.resolve(__dirname, './client/build', 'index.html'))
 })
 
 app.use(notFoundMiddleware)
