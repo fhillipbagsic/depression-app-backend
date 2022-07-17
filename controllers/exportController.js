@@ -267,6 +267,8 @@ const fonts = {
 const patientPDF = async (req, res) => {
     const email = req.body?.email
 
+    const user = await Patient.findOne({ email })
+
     let dailyTrackers = (await DailyTracker.find({ email }).lean()) || []
     let healthHabits = (await HealthHabit.find({ email }).lean()) || []
 
@@ -311,7 +313,7 @@ const patientPDF = async (req, res) => {
         '\n',
         '\n',
         {
-            text: `Patient: ${email}`,
+            text: `Patient: ${user.firstName} ${user.lastName}`,
             style: 'subheader',
         },
         {

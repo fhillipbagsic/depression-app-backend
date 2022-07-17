@@ -37,32 +37,17 @@ const signup = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    const email = req.body?.email || ''
     const username = req.body?.username || ''
     const password = req.body?.password
 
-    if ((!email && !username) || !password) {
-        throw new BadRequestError(
-            'Please provide email or username and password'
-        )
+    if (!username || !password) {
+        throw new BadRequestError('Please provide username and password')
     }
 
-    const getUser = async () => {
-        const search_query = {}
-        if (email) {
-            search_query.email = email
-        } else {
-            search_query.username = username
-        }
-
-        return (
-            (await Patient.findOne(search_query)) ||
-            (await Clinician.findOne(search_query)) ||
-            (await Admin.findOne(search_query))
-        )
-    }
-
-    const user = await getUser(email || username)
+    const user =
+        (await Patient.findOne({ username })) ||
+        (await Clinician.findOne({ username })) ||
+        (await Admin.findOne({ username }))
 
     if (!user) {
         throw new UnauthenticatedError('Invalid Credentials')

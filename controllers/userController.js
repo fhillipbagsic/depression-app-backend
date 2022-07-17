@@ -36,7 +36,7 @@ const createPatient = async (req, res) => {
 
     const hashedPassword = await hashPassword(req.body.password)
     req.body.password = hashedPassword
-
+    req.body.username = String(req.body.username).toLowerCase()
     const response = await Patient.create(req.body)
 
     sendMailUserAccount(email, username, password)
@@ -137,6 +137,7 @@ const createClinician = async (req, res) => {
     req.body.role = 'Clinician'
     const hashedPassword = await hashPassword(password)
     req.body.password = hashedPassword
+    req.body.username = String(req.body.username).toLowerCase()
 
     await Clinician.create(req.body)
     sendMailUserAccount(email, username, password)
