@@ -6,6 +6,7 @@ import Patient from '../models/Patient.js'
 import PasswordRecord from '../models/PasswordRecord.js'
 import { createPasswordToken, createToken } from '../utils/jwt.js'
 import { comparePassword, hashPassword } from '../utils/validatePassword.js'
+import sendMailPasswordURL from '../utils/sendMailPasswordURL.js'
 
 const signup = async (req, res) => {
     const { email, password, role } = req.body
@@ -144,8 +145,10 @@ const sendChangePasswordUrl = async (req, res) => {
     //send email
 
     const url = `https://www.emovault.com/changepassword?token=${token.token}`
-
-    res.status(StatusCodes.OK).json({ url })
+    sendMailPasswordURL(email, url)
+    res.status(StatusCodes.OK).json({
+        message: 'Password reset link sent to email',
+    })
 }
 
 const changeNewPassword = async (req, res) => {
