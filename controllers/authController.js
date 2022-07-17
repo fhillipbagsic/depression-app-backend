@@ -37,7 +37,7 @@ const signup = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    const username = req.body?.username || ''
+    const username = String(req.body?.username || '').toLowerCase()
     const password = req.body?.password
 
     if (!username || !password) {

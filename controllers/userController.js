@@ -138,7 +138,6 @@ const createClinician = async (req, res) => {
     const hashedPassword = await hashPassword(password)
     req.body.password = hashedPassword
     req.body.username = String(req.body.username).toLowerCase()
-
     await Clinician.create(req.body)
     sendMailUserAccount(email, username, password)
     res.status(StatusCodes.OK).json({ message: 'Clinician registered' })
