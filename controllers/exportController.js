@@ -301,7 +301,6 @@ const patientPDF = async (req, res) => {
         }
     })
 
-    console.log(entries)
     const printer = new PdfPrinter(fonts)
 
     const text = [
