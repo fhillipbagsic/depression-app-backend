@@ -6,8 +6,24 @@ const createToken = (user) => {
     return { ...token, token: jwt }
 }
 
+const createPasswordToken = (user) => {
+    const token = { email: user.email, role: user.role }
+    const jwt = createJWT({ payload: token })
+    return { token: jwt }
+}
+
 const createJWT = ({ payload }) => jwt.sign(payload, process.env.JWT_SECRET)
 
-const isTokenValid = ({ token }) => jwt.verify(token, process.env.JWT_SECRET)
+const createPasswordJWT = ({ payload }) =>
+    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '20s' })
 
-export { createToken, createJWT, isTokenValid }
+const isTokenValid = ({ token }) =>
+    jwt.verify(token, process.env.JWT_SECRET, { ignoreExpiration: false })
+
+export {
+    createToken,
+    createPasswordJWT,
+    createJWT,
+    createPasswordToken,
+    isTokenValid,
+}

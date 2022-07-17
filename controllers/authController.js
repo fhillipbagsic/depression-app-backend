@@ -3,7 +3,8 @@ import { UnauthenticatedError, BadRequestError } from '../errors/index.js'
 import Admin from '../models/Admin.js'
 import Clinician from '../models/Clinician.js'
 import Patient from '../models/Patient.js'
-import { createToken } from '../utils/jwt.js'
+import PasswordRecord from '../models/PasswordRecord.js'
+import { createPasswordToken, createToken } from '../utils/jwt.js'
 import { comparePassword, hashPassword } from '../utils/validatePassword.js'
 
 const signup = async (req, res) => {
@@ -131,6 +132,78 @@ const changePassword = async (req, res) => {
     })
 }
 
+const sendChangePasswordUrl = async (req, res) => {
+    const { email } = req.body
+
+    if (!email) {
+        throw new BadRequestError('Please provide email')
+    }
+
+    const user =
+        (await Patient.findOne({ email })) ||
+        (await Clinician.findOne({ email })) ||
+        (await Admin.findOne({ email }))
+
+    if (!user) {
+        throw new UnauthenticatedError('Email is not registered')
+    }
+
+    const token = createPasswordToken(user)
+
+    const resp = await PasswordRecord.updateOne(
+        { email },
+        { canChangePassword: true },
+        { upsert: true }
+    )
+
+    //send email
+
+    const url = `https://www.emovault.com/changepassword?token=${token.token}`
+
+    res.status(StatusCodes.OK).json({ url })
+}
+
+const changeNewPassword = async (req, res) => {
+    const { email, role } = req.user
+    const newPassword = req.body?.newPassword
+
+    const userPasswordRecord = await PasswordRecord.findOne({ email })
+
+    if (!userPasswordRecord.canChangePassword) {
+        throw new BadRequestError('Link is now invalid')
+    }
+
+    if (!newPassword) {
+        throw new BadRequestError('Please provide new password')
+    }
+
+    const hashedPassword = hashPassword(newPassword)
+
+    if (role === 'Patient') {
+        const resp = await Patient.updateOne(
+            { email },
+            { password: hashedPassword }
+        )
+    } else if (role === 'Clinician') {
+        const resp = await Clinician.updateOne(
+            { email },
+            { password: hashedPassword }
+        )
+    } else if (role === 'Admin') {
+        const resp = await Admin.updateOne(
+            { email },
+            { password: hashedPassword }
+        )
+    }
+
+    const update = await PasswordRecord.updateOne(
+        { email },
+        { canChangePassword: false }
+    )
+
+    res.status(StatusCodes.OK).json({ message: 'Password has been changed' })
+}
+
 const getInfo = async (req, res) => {
     const email = req.user.email
     const user =
@@ -140,4 +213,12 @@ const getInfo = async (req, res) => {
     res.status(200).json({ user })
 }
 
-export { signup, login, logout, changePassword, getInfo }
+export {
+    signup,
+    login,
+    logout,
+    changePassword,
+    sendChangePasswordUrl,
+    changeNewPassword,
+    getInfo,
+}
