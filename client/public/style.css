@@ -309,7 +309,7 @@ span {
 
 #login_btn {
   background-color: #61dafb;
-  border-color: var(--dblue);
+  border: none;
   color: #fff;
   width: 100%;
 }
@@ -938,4 +938,8 @@ input#cert3 {
   height: 40px;
   margin: auto;
   margin-right: 10px;
+}
+
+#forgotPasslbl {
+  cursor: pointer;
 }

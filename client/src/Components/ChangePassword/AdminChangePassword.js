@@ -21,28 +21,28 @@ function AdminChangePassword() {
 
     //
     const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
-    if (
-      (oldpass === "" && confirmpass === "" && newpass === "") ||
-      oldpass === "" ||
-      confirmpass === "" ||
-      newpass === ""
-    ) {
-      document.getElementById("errorMsgCP").style.display = "block";
-      document.getElementById("errorMsgCP").innerHTML =
-        "Please input all field";
-    }
+    // if (
+    //   (oldpass === "" && confirmpass === "" && newpass === "") ||
+    //   oldpass === "" ||
+    //   confirmpass === "" ||
+    //   newpass === ""
+    // ) {
+    //   document.getElementById("errorMsgCP").style.display = "block";
+    //   document.getElementById("errorMsgCP").innerHTML =
+    //     "Please input all field";
+    // }
 
-    if (newpass !== confirmpass) {
-      document.getElementById("errorMsgCP").style.display = "block";
-      document.getElementById("errorMsgCP").innerHTML =
-        "New Password and Confirm Password does not match";
-    }
+    // if (newpass !== confirmpass) {
+    //   document.getElementById("errorMsgCP").style.display = "block";
+    //   document.getElementById("errorMsgCP").innerHTML =
+    //     "New Password and Confirm Password does not match";
+    // }
 
-    if (!passRegex.test(confirmpass) || !passRegex.test(newpass)) {
-      document.getElementById("errorMsgCP").style.display = "block";
-      document.getElementById("errorMsgCP").innerHTML =
-        "Password should have minimum eight and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character";
-    }
+    // if (!passRegex.test(confirmpass) || !passRegex.test(newpass)) {
+    //   document.getElementById("errorMsgCP").style.display = "block";
+    //   document.getElementById("errorMsgCP").innerHTML =
+    //     "Password should have minimum eight and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character";
+    // }
 
     if (
       newpass === confirmpass &&
