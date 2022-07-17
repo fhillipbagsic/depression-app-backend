@@ -3,8 +3,10 @@ import { UnauthenticatedError, BadRequestError } from '../errors/index.js'
 import Admin from '../models/Admin.js'
 import Clinician from '../models/Clinician.js'
 import Patient from '../models/Patient.js'
-import { createToken } from '../utils/jwt.js'
+import PasswordRecord from '../models/PasswordRecord.js'
+import { createPasswordToken, createToken } from '../utils/jwt.js'
 import { comparePassword, hashPassword } from '../utils/validatePassword.js'
+import sendMailPasswordURL from '../utils/sendMailPasswordURL.js'
 
 const signup = async (req, res) => {
     const { email, password, role } = req.body
@@ -36,32 +38,17 @@ const signup = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    const email = req.body?.email || ''
-    const username = req.body?.username || ''
+    const username = String(req.body?.username || '').toLowerCase()
     const password = req.body?.password
 
-    if ((!email && !username) || !password) {
-        throw new BadRequestError(
-            'Please provide email or username and password'
-        )
+    if (!username || !password) {
+        throw new BadRequestError('Please provide username and password')
     }
 
-    const getUser = async () => {
-        const search_query = {}
-        if (email) {
-            search_query.email = email
-        } else {
-            search_query.username = username
-        }
-
-        return (
-            (await Patient.findOne(search_query)) ||
-            (await Clinician.findOne(search_query)) ||
-            (await Admin.findOne(search_query))
-        )
-    }
-
-    const user = await getUser(email || username)
+    const user =
+        (await Patient.findOne({ username })) ||
+        (await Clinician.findOne({ username })) ||
+        (await Admin.findOne({ username }))
 
     if (!user) {
         throw new UnauthenticatedError('Invalid Credentials')
@@ -131,6 +118,80 @@ const changePassword = async (req, res) => {
     })
 }
 
+const sendChangePasswordUrl = async (req, res) => {
+    const { email } = req.body
+
+    if (!email) {
+        throw new BadRequestError('Please provide email')
+    }
+
+    const user =
+        (await Patient.findOne({ email })) ||
+        (await Clinician.findOne({ email })) ||
+        (await Admin.findOne({ email }))
+
+    if (!user) {
+        throw new UnauthenticatedError('Email is not registered')
+    }
+
+    const token = createPasswordToken(user)
+
+    const resp = await PasswordRecord.updateOne(
+        { email },
+        { canChangePassword: true },
+        { upsert: true }
+    )
+
+    const url = `https://www.emovault.com/newpassword?token=${token.token}`
+
+    sendMailPasswordURL(email, url)
+
+    res.status(StatusCodes.OK).json({
+        message: 'Password reset link sent to email',
+    })
+}
+
+const changeNewPassword = async (req, res) => {
+    const { email, role } = req.user
+    const newPassword = req.body?.newPassword
+
+    const userPasswordRecord = await PasswordRecord.findOne({ email })
+
+    if (!userPasswordRecord.canChangePassword) {
+        throw new BadRequestError('Link is now invalid')
+    }
+
+    if (!newPassword) {
+        throw new BadRequestError('Please provide new password')
+    }
+
+    const hashedPassword = await hashPassword(newPassword)
+
+    if (role === 'Patient') {
+        const resp = await Patient.updateOne(
+            { email },
+            { password: hashedPassword }
+        )
+    } else if (role === 'Clinician') {
+        const resp = await Clinician.updateOne(
+            { email },
+            { password: hashedPassword }
+        )
+    } else if (role === 'Admin') {
+        const resp = await Admin.updateOne(
+            { email },
+            { password: hashedPassword }
+        )
+    }
+
+    const update = await PasswordRecord.updateOne(
+        { email },
+        { canChangePassword: false }
+    )
+
+    res.status(StatusCodes.OK).json({ message: 'Password has been changed' })
+}
+
 const getInfo = async (req, res) => {
     const email = req.user.email
     const user =
@@ -140,4 +201,12 @@ const getInfo = async (req, res) => {
     res.status(200).json({ user })
 }
 
-export { signup, login, logout, changePassword, getInfo }
+export {
+    signup,
+    login,
+    logout,
+    changePassword,
+    sendChangePasswordUrl,
+    changeNewPassword,
+    getInfo,
+}
