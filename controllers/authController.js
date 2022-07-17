@@ -142,10 +142,10 @@ const sendChangePasswordUrl = async (req, res) => {
         { upsert: true }
     )
 
-    //send email
+    const url = `https://www.emovault.com/newpassword?token=${token.token}`
 
-    const url = `https://www.emovault.com/changepassword?token=${token.token}`
     sendMailPasswordURL(email, url)
+
     res.status(StatusCodes.OK).json({
         message: 'Password reset link sent to email',
     })
@@ -165,7 +165,7 @@ const changeNewPassword = async (req, res) => {
         throw new BadRequestError('Please provide new password')
     }
 
-    const hashedPassword = hashPassword(newPassword)
+    const hashedPassword = await hashPassword(newPassword)
 
     if (role === 'Patient') {
         const resp = await Patient.updateOne(

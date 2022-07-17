@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer'
 
 const sendMailPasswordURL = async (toEmail, url) => {
     const subject = 'Emovault - Change Password'
-    const message = `<p>You have requested to change your forgotten password, please access this link to set your new password <a href=\"${url}\">${url}</a>`
+    const message = `<p>You have requested to change your forgotten password. Access this link to set your new password <a href=\"${url}\">${url}</a> . Please note that the link will expire in 1 hour after this email has been sent.`
 
     const fromEmail = process.env.GMAIL_EMAIL
     const password = process.env.GMAIL_PASSWORD
