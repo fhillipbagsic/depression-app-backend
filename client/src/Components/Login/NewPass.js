@@ -14,14 +14,30 @@ function NewPass() {
     });
   };
   return (
-    <div className="login-bg">
-      <Form className="login-form">
+    <div
+      className="login-bg"
+      style={{
+        width: "100%",
+        minHeight: "100vh",
+        padding: "50px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        background: "#d3f8ff",
+      }}
+    >
+      <Form
+        className="login-form"
+        style={{
+          background: "#fff",
+          padding: "50px",
+          maxWidth: "500px",
+          borderRadius: "10px",
+          display: "inline-block",
+        }}
+      >
         <Form.Group className="mb-3">
-          <Form.Label
-            as="h2"
-            className="fw-bold"
-            style={{ color: "var(--dblue)" }}
-          >
+          <Form.Label as="h2" className="fw-bold" style={{ color: "#03aacc" }}>
             Reset Password
           </Form.Label>
           <Form.Label>New Password</Form.Label>
@@ -44,7 +60,12 @@ function NewPass() {
             }}
           />
         </Form.Group>
-        <Button id="login_btn" className="mt-2" onClick={submitPass}>
+        <Button
+          id="login_btn"
+          className="mt-2"
+          onClick={submitPass}
+          style={{ background: "#61dafb", width: "100%", color: "white" }}
+        >
           Submit
         </Button>
       </Form>
