@@ -14,6 +14,9 @@ const patientExcel = async (req, res) => {
 
     const workbook = new xl.Workbook()
 
+    // patient info
+    const patient = await Patient.findOne({ email })
+
     // Worksheet for daily tracker
     const dailyTrackers = await DailyTracker.find({ email }).lean()
 
@@ -39,16 +42,19 @@ const patientExcel = async (req, res) => {
             bold: true,
         },
     })
+
+    worksheet1.cell(1, 1).string('Patient').style(columnStyle)
+    worksheet1.cell(1, 2).string(`${patient.firstName} ${patient.lastName}`)
     let heading1ColIdx = 1
 
     worksheet1Headings.forEach((heading) => {
         worksheet1
-            .cell(1, heading1ColIdx++)
+            .cell(2, heading1ColIdx++)
             .string(heading)
             .style(columnStyle)
     })
 
-    let row1Idx = 2
+    let row1Idx = 3
 
     dailyTrackers.forEach((record) => {
         let colIdx = 1
@@ -71,14 +77,17 @@ const patientExcel = async (req, res) => {
 
     let heading2ColIdx = 1
 
+    worksheet2.cell(1, 1).string('Patient').style(columnStyle)
+    worksheet2.cell(1, 2).string(`${patient.firstName} ${patient.lastName}`)
+
     worksheet2Headings.forEach((heading) => {
         worksheet2
-            .cell(1, heading2ColIdx++)
+            .cell(2, heading2ColIdx++)
             .string(heading)
             .style(columnStyle)
     })
 
-    let row2Idx = 2
+    let row2Idx = 3
 
     healthHabits.forEach((record) => {
         let colIdx = 1
