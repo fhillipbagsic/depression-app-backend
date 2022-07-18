@@ -14,14 +14,17 @@ const patientExcel = async (req, res) => {
 
     const workbook = new xl.Workbook()
 
+    // patient info
+    const patient = await Patient.findOne({ email })
+
     // Worksheet for daily tracker
     const dailyTrackers = await DailyTracker.find({ email }).lean()
 
     const worksheet1 = workbook.addWorksheet('Daily Trackers')
 
     const worksheet1Headings = [
-        'Email',
         'Date',
+        'Email',
         'Sleep At',
         'Wokeup At',
         'Total Hours',
@@ -39,16 +42,19 @@ const patientExcel = async (req, res) => {
             bold: true,
         },
     })
+
+    worksheet1.cell(1, 1).string('Patient').style(columnStyle)
+    worksheet1.cell(1, 2).string(`${patient.firstName} ${patient.lastName}`)
     let heading1ColIdx = 1
 
     worksheet1Headings.forEach((heading) => {
         worksheet1
-            .cell(1, heading1ColIdx++)
+            .cell(2, heading1ColIdx++)
             .string(heading)
             .style(columnStyle)
     })
 
-    let row1Idx = 2
+    let row1Idx = 3
 
     dailyTrackers.forEach((record) => {
         let colIdx = 1
@@ -67,18 +73,21 @@ const patientExcel = async (req, res) => {
 
     const worksheet2 = workbook.addWorksheet('Health Habits')
 
-    const worksheet2Headings = ['Email', 'Date', 'Question', 'Answer']
+    const worksheet2Headings = ['Date', 'Email', 'Question', 'Answer']
 
     let heading2ColIdx = 1
 
+    worksheet2.cell(1, 1).string('Patient').style(columnStyle)
+    worksheet2.cell(1, 2).string(`${patient.firstName} ${patient.lastName}`)
+
     worksheet2Headings.forEach((heading) => {
         worksheet2
-            .cell(1, heading2ColIdx++)
+            .cell(2, heading2ColIdx++)
             .string(heading)
             .style(columnStyle)
     })
 
-    let row2Idx = 2
+    let row2Idx = 3
 
     healthHabits.forEach((record) => {
         let colIdx = 1
@@ -94,22 +103,24 @@ const patientExcel = async (req, res) => {
 
     workbook.write('utils/excel/export_patient_data.xlsx')
 
-    const url = await cloudinary.v2.uploader
-        .upload('utils/excel/export_patient_data.xlsx', {
-            upload_preset: 'xjutxivn',
-            resource_type: 'auto',
-            folder: 'Excel',
-        })
-        .then((response) => {
-            return response.url
-        })
-        .catch((err) => {
-            throw err
-        })
+    setTimeout(async () => {
+        const url = await cloudinary.v2.uploader
+            .upload('utils/excel/export_patient_data.xlsx', {
+                upload_preset: 'xjutxivn',
+                resource_type: 'auto',
+                folder: 'Excel',
+            })
+            .then((response) => {
+                return response.url
+            })
+            .catch((err) => {
+                throw err
+            })
 
-    res.status(StatusCodes.OK).json({
-        file: url,
-    })
+        res.status(StatusCodes.OK).json({
+            file: url,
+        })
+    }, 3000)
 }
 
 const clinicianExcel = async (req, res) => {
@@ -163,22 +174,24 @@ const clinicianExcel = async (req, res) => {
 
     workbook.write('utils/excel/export_clinician_patients_data.xlsx')
 
-    const url = await cloudinary.v2.uploader
-        .upload('utils/excel/export_clinician_patients_data.xlsx', {
-            upload_preset: 'xjutxivn',
-            resource_type: 'auto',
-            folder: 'Excel',
-        })
-        .then((response) => {
-            return response.url
-        })
-        .catch((err) => {
-            throw err
-        })
+    setTimeout(async () => {
+        const url = await cloudinary.v2.uploader
+            .upload('utils/excel/export_clinician_patients_data.xlsx', {
+                upload_preset: 'xjutxivn',
+                resource_type: 'auto',
+                folder: 'Excel',
+            })
+            .then((response) => {
+                return response.url
+            })
+            .catch((err) => {
+                throw err
+            })
 
-    res.status(StatusCodes.OK).json({
-        file: url,
-    })
+        res.status(StatusCodes.OK).json({
+            file: url,
+        })
+    }, 3000)
 }
 
 const adminExcel = async (req, res) => {
@@ -239,22 +252,24 @@ const adminExcel = async (req, res) => {
 
     workbook.write('utils/excel/export_clinician_data.xlsx')
 
-    const url = await cloudinary.v2.uploader
-        .upload('utils/excel/export_clinician_data.xlsx', {
-            upload_preset: 'xjutxivn',
-            resource_type: 'auto',
-            folder: 'Excel',
-        })
-        .then((response) => {
-            return response.url
-        })
-        .catch((err) => {
-            throw err
-        })
+    setTimeout(async () => {
+        const url = await cloudinary.v2.uploader
+            .upload('utils/excel/export_clinician_data.xlsx', {
+                upload_preset: 'xjutxivn',
+                resource_type: 'auto',
+                folder: 'Excel',
+            })
+            .then((response) => {
+                return response.url
+            })
+            .catch((err) => {
+                throw err
+            })
 
-    res.status(StatusCodes.OK).json({
-        file: url,
-    })
+        res.status(StatusCodes.OK).json({
+            file: url,
+        })
+    }, 3000)
 }
 
 const fonts = {
@@ -461,23 +476,25 @@ const patientPDF = async (req, res) => {
     pdfDoc.pipe(fs.createWriteStream('utils/pdf/export_patient_data.pdf'))
     pdfDoc.end()
 
-    const url = await cloudinary.v2.uploader
-        .upload('utils/pdf/export_patient_data.pdf', {
-            upload_preset: 'xjutxivn',
-            resource_type: 'auto',
-            folder: 'Pdf',
-        })
-        .then((response) => {
-            return response.url
-        })
-        .catch((err) => {
-            console.log(err)
-            throw err
-        })
+    setTimeout(async () => {
+        const url = await cloudinary.v2.uploader
+            .upload('utils/pdf/export_patient_data.pdf', {
+                upload_preset: 'xjutxivn',
+                resource_type: 'auto',
+                folder: 'Pdf',
+            })
+            .then((response) => {
+                return response.url
+            })
+            .catch((err) => {
+                console.log(err)
+                throw err
+            })
 
-    res.status(StatusCodes.OK).json({
-        file: url,
-    })
+        res.status(StatusCodes.OK).json({
+            file: url,
+        })
+    }, 3000)
 }
 
 const clinicianPDF = async (req, res) => {
@@ -566,22 +583,24 @@ const clinicianPDF = async (req, res) => {
     )
     pdfDoc.end()
 
-    const url = await cloudinary.v2.uploader
-        .upload('utils/pdf/export_clinician_patients_data.pdf', {
-            upload_preset: 'xjutxivn',
-            resource_type: 'auto',
-            folder: 'Pdf',
-        })
-        .then((response) => {
-            return response.url
-        })
-        .catch((err) => {
-            throw err
-        })
+    setTimeout(async () => {
+        const url = await cloudinary.v2.uploader
+            .upload('utils/pdf/export_clinician_patients_data.pdf', {
+                upload_preset: 'xjutxivn',
+                resource_type: 'auto',
+                folder: 'Pdf',
+            })
+            .then((response) => {
+                return response.url
+            })
+            .catch((err) => {
+                throw err
+            })
 
-    res.status(StatusCodes.OK).json({
-        file: url,
-    })
+        res.status(StatusCodes.OK).json({
+            file: url,
+        })
+    }, 3000)
 }
 
 const adminPDF = async (req, res) => {
@@ -594,13 +613,6 @@ const adminPDF = async (req, res) => {
             message: 'Clinician not found',
         })
     }
-    // console.log(clinician.picture)
-    // fetch(clinician.picture).then(
-    //     (response) =>
-    //         new Promise((res, rej) => {
-    //             console.log(res.data)
-    //         })
-    // )
 
     const printer = new PdfPrinter(fonts)
     const docDefinition = {
@@ -691,22 +703,24 @@ const adminPDF = async (req, res) => {
     pdfDoc.pipe(fs.createWriteStream('utils/pdf/export_clinician_data.pdf'))
     pdfDoc.end()
 
-    const url = await cloudinary.v2.uploader
-        .upload('utils/pdf/export_clinician_data.pdf', {
-            upload_preset: 'xjutxivn',
-            resource_type: 'auto',
-            folder: 'Pdf',
-        })
-        .then((response) => {
-            return response.url
-        })
-        .catch((err) => {
-            throw err
-        })
+    setTimeout(async () => {
+        const url = await cloudinary.v2.uploader
+            .upload('utils/pdf/export_clinician_data.pdf', {
+                upload_preset: 'xjutxivn',
+                resource_type: 'auto',
+                folder: 'Pdf',
+            })
+            .then((response) => {
+                return response.url
+            })
+            .catch((err) => {
+                throw err
+            })
 
-    res.status(StatusCodes.OK).json({
-        file: url,
-    })
+        res.status(StatusCodes.OK).json({
+            file: url,
+        })
+    }, 3000)
 }
 
 export {

@@ -80,8 +80,9 @@ const job = new CronJob(
         const patients = await getPatientsEmails()
 
         if (patients) {
-            patients.forEach((email) => {
-                sendMail(email)
+            patients.forEach((patient) => {
+                const { email, firstName, lastName } = patient
+                sendMail(email, firstName, lastName)
             })
         }
     },
