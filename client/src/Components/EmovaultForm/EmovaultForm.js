@@ -93,9 +93,7 @@ function EmovaultForm() {
     if (l !== "" && l2 !== "") {
       const m = moment(new Date(yesterday + " " + l));
       console.log(m);
-      var startTime = moment(l, "hh:mm")
-        .subtract(1, "days")
-        .format("MM/DD/YYYY");
+      var startTime = moment(yesterday + " " + l, "MM/DD/YYYY hh:mm");
       var lk = moment(yesterday).startOf(startTime);
       var endTime = moment(l2, "hh:mm");
       //  var lk2 = moment().date.startOf(endTime);
