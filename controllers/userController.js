@@ -208,8 +208,12 @@ const getAdmin = async (req, res) => {
 }
 
 const getPatientsEmails = async () => {
-    const patients = (await Patient.find()) || []
-    return patients.map((patient) => patient.email)
+    const patients = (await Patient.find().lean()) || []
+
+    return patients.map((patient) => {
+        const { email, firstName, lastName } = patient
+        return { email, firstName, lastName }
+    })
 }
 
 const createAdminAccount = async () => {
