@@ -39,7 +39,14 @@ const createPatient = async (req, res) => {
     req.body.username = String(req.body.username).toLowerCase()
     const response = await Patient.create(req.body)
 
-    sendMailUserAccount(email, firstName, lastName, username, password)
+    sendMailUserAccount(
+        email,
+        firstName,
+        lastName,
+        username,
+        password,
+        'Patient'
+    )
 
     res.status(StatusCodes.CREATED).json({
         message: `Patient ${response.firstName} ${response.lastName} has been added`,
@@ -114,7 +121,7 @@ const getPatients = async (req, res) => {
 }
 
 const createClinician = async (req, res) => {
-    const { email, username, password } = req.body
+    const { email, firstName, lastName, username, password } = req.body
 
     const clinicianEmail =
         (await Patient.findOne({ email })) ||
@@ -139,7 +146,14 @@ const createClinician = async (req, res) => {
     req.body.password = hashedPassword
     req.body.username = String(req.body.username).toLowerCase()
     await Clinician.create(req.body)
-    sendMailUserAccount(email, username, password)
+    sendMailUserAccount(
+        email,
+        firstName,
+        lastName,
+        username,
+        password,
+        'Clinician'
+    )
     res.status(StatusCodes.OK).json({ message: 'Clinician registered' })
 }
 
