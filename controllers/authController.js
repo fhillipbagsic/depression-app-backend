@@ -142,7 +142,7 @@ const sendChangePasswordUrl = async (req, res) => {
         { upsert: true }
     )
 
-    const url = `https://www.emovault.com/Newpassword?token=${token.token}`
+    const url = `https://www.emovault.com/Newpassword/${token.token}`
 
     sendMailPasswordURL(email, url)
 

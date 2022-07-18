@@ -26,7 +26,7 @@ function ClinicianProfile() {
   const token = localStorage.getItem("token");
   useEffect(() => {
     Axios.get(
-      `/api/users/clinician?token=${token}&email=${cemail}`,
+      `/api/users/clinician?token=${token}`,
       {
         email: cemail,
         token: token,

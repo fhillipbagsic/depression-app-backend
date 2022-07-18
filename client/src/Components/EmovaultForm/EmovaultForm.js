@@ -38,12 +38,9 @@ function EmovaultForm() {
     .toString();
   const [showDate, setShowDate] = useState(dateTime);
   useEffect(() => {
-    Axios.get(
-      `/api/tracker/questionoftheday?token=${token}`,
-      {
-        token: token,
-      }
-    ).then((response) => {
+    Axios.get(`/api/tracker/questionoftheday?token=${token}`, {
+      token: token,
+    }).then((response) => {
       setquestionoftheday(response.data.question);
       console.log(response.data);
     });
@@ -85,11 +82,23 @@ function EmovaultForm() {
   };
 
   const setTotalHrs = () => {
+    var yesterday = moment()
+      .subtract(1, "days")
+      .format("MM/DD/YYYY")
+      .toString();
+    console.log(yesterday);
     const l = document.getElementById("time").value;
     const l2 = document.getElementById("time2").value;
+
     if (l !== "" && l2 !== "") {
+      const m = moment(new Date(yesterday + " " + l));
+      console.log(m);
       var startTime = moment(l, "hh:mm");
+      var lk = moment(yesterday).startOf(startTime);
       var endTime = moment(l2, "hh:mm");
+      var lk2 = moment().startOf(endTime);
+      console.log(startTime);
+      console.log(endTime);
 
       var totalSec = endTime.diff(startTime, "seconds");
 

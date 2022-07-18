@@ -309,7 +309,7 @@ span {
 
 #login_btn {
   background-color: #61dafb;
-  border: none;
+  border-color: var(--dblue);
   color: #fff;
   width: 100%;
 }
@@ -906,7 +906,7 @@ button.react-calendar__navigation__arrow.react-calendar__navigation__next2-butto
   color: var(--dvio);
 }
 
-input[type="file"] {
+/* input[type="file"] {
   color: rgba(0, 0, 0, 0);
   background: rgba(0, 0, 0, 0);
   border-color: rgba(0, 0, 0, 0);
@@ -920,7 +920,7 @@ input[type="file"]:focus {
 
 #inputImage:active {
   outline: none;
-}
+} */
 
 input#checkResize,
 input#checkResize1,
@@ -940,6 +940,6 @@ input#cert3 {
   margin-right: 10px;
 }
 
-#forgotPasslbl {
-  cursor: pointer;
+#forgotPasslbl{
+  cursor:pointer
 }

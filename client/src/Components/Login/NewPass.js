@@ -1,6 +1,18 @@
-import React from "react";
 import { Form, Button } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+import Axios from "axios";
+import React, { useState } from "react";
 function NewPass() {
+  const { token } = useParams();
+  const [password, setpassword] = useState("");
+  const submitPass = () => {
+    Axios.post(`/api/auth/changenewpassword`, {
+      token: token,
+      newPassword: password,
+    }).then((response) => {
+      alert("Password successfully changed");
+    });
+  };
   return (
     <div className="login-bg">
       <Form className="login-form">
@@ -27,9 +39,12 @@ function NewPass() {
             className="mb-2"
             type="password"
             placeholder="Enter confirm password"
+            onChange={(event) => {
+              setpassword(event.target.value);
+            }}
           />
         </Form.Group>
-        <Button id="login_btn" className="mt-2">
+        <Button id="login_btn" className="mt-2" onClick={submitPass}>
           Submit
         </Button>
       </Form>

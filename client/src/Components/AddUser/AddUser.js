@@ -38,42 +38,42 @@ function AddUser() {
       document.getElementById("clientFN").value === "" ||
       !nameRegex.test(document.getElementById("clientFN").value)
     ) {
-      document.getElementById("clientFNErr").style.display = "block";
+      document.getElementById("clientFN").style.borderColor = "red";
     }
 
     if (
       document.getElementById("clientLN").value === "" ||
       !nameRegex.test(document.getElementById("clientLN").value)
     ) {
-      document.getElementById("clientLNErr").style.display = "block";
+      document.getElementById("clientLN").style.borderColor = "red";
     }
 
     if (
       document.getElementById("clientContact").value === "" ||
       !numberRegex.test(document.getElementById("clientContact").value)
     ) {
-      document.getElementById("clientContactErr").style.display = "block";
+      document.getElementById("clientContact").style.borderColor = "red";
     }
 
     if (
       document.getElementById("clientEmail").value === "" ||
       !emailRegex.test(document.getElementById("clientEmail").value)
     ) {
-      document.getElementById("clientEmailErr").style.display = "block";
+      document.getElementById("clientEmail").style.borderColor = "red";
     }
 
     if (
       document.getElementById("clientUsername").value === "" ||
       !usernameRegex.test(document.getElementById("clientUsername").value)
     ) {
-      document.getElementById("clientUsernameErr").style.display = "block";
+      document.getElementById("clientUsername").style.borderColor = "red";
     }
 
     if (
       document.getElementById("clientPass").value === "" ||
       !passRegex.test(document.getElementById("clientPass").value)
     ) {
-      document.getElementById("clientPassErr").style.display = "block";
+      document.getElementById("clientPass").style.borderColor = "red";
     }
 
     if (
@@ -101,19 +101,16 @@ function AddUser() {
           setimgurl(response.data.secure_url);
           Axios.defaults.withCredentials = true;
 
-          Axios.post(
-            "/api/users/patient?token=${token}",
-            {
-              token: token,
-              firstName: firstName,
-              lastName: lastName,
-              contactNo: contactNo,
-              email: email,
-              picture: response.data.secure_url,
-              username: username,
-              password: password,
-            }
-          )
+          Axios.post(`/api/users/patient?token=${token}`, {
+            token: token,
+            firstName: firstName,
+            lastName: lastName,
+            contactNo: contactNo,
+            email: email,
+            picture: response.data.secure_url,
+            username: username,
+            password: password,
+          })
             .then((response) => {
               console.log(response.data);
             })
@@ -128,13 +125,13 @@ function AddUser() {
   };
 
   const up = () => {
-    document.getElementById("clientPassErr").style.display = "none";
-    document.getElementById("clientUsernameErr").style.display = "none";
-    document.getElementById("clientContactErr").style.display = "none";
-    document.getElementById("clientEmailErr").style.display = "none";
-    document.getElementById("clientLNErr").style.display = "none";
-    document.getElementById("clientFNErr").style.display = "none";
     document.getElementById("inputImageErr").style.display = "none";
+    document.getElementById("clientFN").style.borderColor = "#ced4da";
+    document.getElementById("clientLN").style.borderColor = "#ced4da";
+    document.getElementById("clientContact").style.borderColor = "#ced4da";
+    document.getElementById("clientEmail").style.borderColor = "#ced4da";
+    document.getElementById("clientUsername").style.borderColor = "#ced4da";
+    document.getElementById("clientPass").style.borderColor = "#ced4da";
   };
   const navigate = useNavigate();
   const back = () => {
@@ -267,9 +264,8 @@ function AddUser() {
                         className="mt-2"
                         id="clientFNErr"
                         style={{
-                          color: "red",
+                          color: "gray",
                           fontWeight: "bold",
-                          display: "none",
                         }}
                       >
                         First Name must contain letters only
@@ -289,9 +285,8 @@ function AddUser() {
                         className="mt-2"
                         id="clientLNErr"
                         style={{
-                          color: "red",
+                          color: "gray",
                           fontWeight: "bold",
-                          display: "none",
                         }}
                       >
                         Last Name must contain letters only
@@ -315,9 +310,8 @@ function AddUser() {
                         className="mt-2"
                         id="clientContactErr"
                         style={{
-                          color: "red",
+                          color: "gray",
                           fontWeight: "bold",
-                          display: "none",
                         }}
                       >
                         Contact Number must contain numbers only
@@ -337,9 +331,8 @@ function AddUser() {
                         className="mt-2"
                         id="clientEmailErr"
                         style={{
-                          color: "red",
+                          color: "gray",
                           fontWeight: "bold",
-                          display: "none",
                         }}
                       >
                         Please enter valid email address
@@ -365,9 +358,8 @@ function AddUser() {
                     className="mt-2"
                     id="clientUsernameErr"
                     style={{
-                      color: "red",
+                      color: "gray",
                       fontWeight: "bold",
-                      display: "none",
                     }}
                   >
                     Please enter valid username (minimum of 8)
@@ -401,9 +393,8 @@ function AddUser() {
                     className="mt-2"
                     id="clientPassErr"
                     style={{
-                      color: "red",
+                      color: "gray",
                       fontWeight: "bold",
-                      display: "none",
                     }}
                   >
                     Password should have 8-10 characters, at least one uppercase

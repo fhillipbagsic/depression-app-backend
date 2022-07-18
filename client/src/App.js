@@ -9,8 +9,10 @@ const AdminProfile = React.lazy(() =>
   import("./Components/Profile/AdminProfile")
 );
 const Login = React.lazy(() => import("./Components/Login/Login"));
-const ForgotPassword = React.lazy(() => import("./Components/Login/ForgotPassword"));
-const NewPass = React.lazy(() => import("./Components/Login/NewPass"));
+const ForgotPassword = React.lazy(() =>
+  import("./Components/Login/ForgotPassword")
+);
+const Newpassword = React.lazy(() => import("./Components/Login/NewPass"));
 const Home = React.lazy(() => import("./Components/Login/Home"));
 const EmovaultForm = React.lazy(() =>
   import("./Components/EmovaultForm/EmovaultForm")
@@ -90,7 +92,7 @@ function App() {
             </React.Suspense>
           }
         ></Route>
-         <Route
+        <Route
           path="/ForgotPassword"
           exact
           element={
@@ -99,12 +101,13 @@ function App() {
             </React.Suspense>
           }
         ></Route>
-         <Route
-          path="/NewPass"
+        <Route
+          caseSensitive
+          path="/Newpassword/:token"
           exact
           element={
             <React.Suspense fallback="Loading Emovault...">
-              <NewPass />
+              <Newpassword />
             </React.Suspense>
           }
         ></Route>
