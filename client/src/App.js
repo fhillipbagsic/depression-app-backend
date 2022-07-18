@@ -9,6 +9,10 @@ const AdminProfile = React.lazy(() =>
   import("./Components/Profile/AdminProfile")
 );
 const Login = React.lazy(() => import("./Components/Login/Login"));
+const ForgotPassword = React.lazy(() =>
+  import("./Components/Login/ForgotPassword")
+);
+const Newpassword = React.lazy(() => import("./Components/Login/NewPass"));
 const Home = React.lazy(() => import("./Components/Login/Home"));
 const EmovaultForm = React.lazy(() =>
   import("./Components/EmovaultForm/EmovaultForm")
@@ -85,6 +89,25 @@ function App() {
           element={
             <React.Suspense fallback="Loading Emovault...">
               <ClinicianProfile />
+            </React.Suspense>
+          }
+        ></Route>
+        <Route
+          path="/ForgotPassword"
+          exact
+          element={
+            <React.Suspense fallback="Loading Emovault...">
+              <ForgotPassword />
+            </React.Suspense>
+          }
+        ></Route>
+        <Route
+          caseSensitive
+          path="/Newpassword/:token"
+          exact
+          element={
+            <React.Suspense fallback="Loading Emovault...">
+              <Newpassword />
             </React.Suspense>
           }
         ></Route>

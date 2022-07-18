@@ -15,7 +15,7 @@ function Login() {
 
     localStorage.setItem("user", userEmail);
     Axios.post("/api/auth/login", {
-      email: email,
+      username: email,
       password: password,
     })
       .then((response) => {
@@ -39,6 +39,10 @@ function Login() {
   };
   const up = () => {
     document.getElementById("errorMsg").style.display = "none";
+  };
+
+  const click = () => {
+    navigate("/ForgotPassword");
   };
   return (
     <div className="login-bg">
@@ -74,12 +78,12 @@ function Login() {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Email</Form.Label>
+          <Form.Label>Username</Form.Label>
           <Form.Control
             className="mb-2"
             type="text"
             id="userEmail"
-            placeholder="Enter Email"
+            placeholder="Enter Username"
             onChange={(event) => {
               setEmail(event.target.value);
             }}
@@ -89,7 +93,7 @@ function Login() {
             Email is required
           </Form.Text>
         </Form.Group>
-        <Form.Group className="mb-4">
+        <Form.Group className="mb-3">
           <Form.Label>Password</Form.Label>
           <Form.Control
             id="userPass"
@@ -104,6 +108,17 @@ function Login() {
           <Form.Text id="passErr" style={{ color: "red", display: "none" }}>
             Password is required
           </Form.Text>
+        </Form.Group>
+        <Form.Group>
+          <center>
+            <Form.Label
+              onClick={click}
+              id="forgotPasslbl"
+              style={{ color: "var(--dblue)" }}
+            >
+              Forgot Password?
+            </Form.Label>
+          </center>
         </Form.Group>
         <Button id="login_btn" className="mt-2" onClick={submit_login}>
           Login

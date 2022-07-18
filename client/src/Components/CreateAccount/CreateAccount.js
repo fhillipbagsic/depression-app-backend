@@ -46,56 +46,56 @@ function CreateAccount() {
       document.getElementById("clPass").value === "" ||
       !passRegex.test(document.getElementById("clPass").value)
     ) {
-      document.getElementById("clPassErr").style.display = "block";
+      document.getElementById("clPass").style.borderColor = "red";
     }
 
     if (
       document.getElementById("clUN").value === "" ||
       !usernameRegex.test(document.getElementById("clUN").value)
     ) {
-      document.getElementById("clUNErr").style.display = "block";
+      document.getElementById("clUN").style.borderColor = "red";
     }
 
     if (
       document.getElementById("clLN").value === "" ||
       !numberLiRegex.test(document.getElementById("clLN").value)
     ) {
-      document.getElementById("clLNErr").style.display = "block";
+      document.getElementById("clLN").style.borderColor = "red";
     }
 
     if (
       document.getElementById("clYIP").value === "" ||
       !numberYearsRegex.test(document.getElementById("clYIP").value)
     ) {
-      document.getElementById("clYipErr").style.display = "block";
+      document.getElementById("clYIP").style.borderColor = "red";
     }
 
     if (
       document.getElementById("clEmail").value === "" ||
       !emailRegex.test(document.getElementById("clEmail").value)
     ) {
-      document.getElementById("clErr").style.display = "block";
+      document.getElementById("clEmail").style.borderColor = "red";
     }
 
     if (
       document.getElementById("clCoNu").value === "" ||
       !numberRegex.test(document.getElementById("clCoNu").value)
     ) {
-      document.getElementById("clCoNuErr").style.display = "block";
+      document.getElementById("clCoNu").style.borderColor = "red";
     }
 
     if (
       document.getElementById("clLastN").value === "" ||
       !nameRegex.test(document.getElementById("clLastN").value)
     ) {
-      document.getElementById("clLastNErr").style.display = "block";
+      document.getElementById("clLastN").style.borderColor = "red";
     }
 
     if (
       document.getElementById("clFirstN").value === "" ||
       !nameRegex.test(document.getElementById("clFirstN").value)
     ) {
-      document.getElementById("clFirstNErr").style.display = "block";
+      document.getElementById("clFirstN").style.borderColor = "red";
     }
 
     if (
@@ -123,24 +123,37 @@ function CreateAccount() {
         setimgurl(response.data.secure_url);
         Axios.defaults.withCredentials = true;
 
-        Axios.post(
-          "/api/users/clinician?token=${token}",
-          {
-            token: token,
-            firstName: firstName,
-            lastName: lastName,
-            contactNo: contactNo,
-            email: email,
-            yearsInPractice: yearsInPractice,
-            license: license,
-            username: username,
-            password: password,
-            certificates: "",
-            picture: response.data.secure_url,
-          }
-        )
+        Axios.post("/api/users/clinician?token=${token}", {
+          token: token,
+          firstName: firstName,
+          lastName: lastName,
+          contactNo: contactNo,
+          email: email,
+          yearsInPractice: yearsInPractice,
+          license: license,
+          username: username,
+          password: password,
+          certificates: "",
+          picture: response.data.secure_url,
+        })
           .then((response) => {
             console.log(response.data);
+            Axios.get(`/api/users/getclinicians?token=${token}`, {
+              token: token,
+            })
+              .then((response) => {
+                console.log(response.data);
+                console.log("nays");
+                Axios.get(`/api/users/getclinicians?token=${token}`, {
+                  token: token,
+                }).then((response) => {
+                  console.log(response.data);
+                  console.log("nays");
+                });
+              })
+              .catch((error) => {
+                console.log(error);
+              });
           })
           .catch((error) => {
             console.log(error);
@@ -151,14 +164,14 @@ function CreateAccount() {
 
   const hide = () => {
     document.getElementById("imgErrMsg").style.display = "none";
-    document.getElementById("clPassErr").style.display = "none";
-    document.getElementById("clUNErr").style.display = "none";
-    document.getElementById("clLNErr").style.display = "none";
-    document.getElementById("clYipErr").style.display = "none";
-    document.getElementById("clErr").style.display = "none";
-    document.getElementById("clCoNuErr").style.display = "none";
-    document.getElementById("clLastNErr").style.display = "none";
-    document.getElementById("clFirstNErr").style.display = "none";
+    document.getElementById("clPass").style.borderColor = "#ced4da";
+    document.getElementById("clUN").style.borderColor = "#ced4da";
+    document.getElementById("clLN").style.borderColor = "#ced4da";
+    document.getElementById("clYIP").style.borderColor = "#ced4da";
+    document.getElementById("clEmail").style.borderColor = "#ced4da";
+    document.getElementById("clCoNu").style.borderColor = "#ced4da";
+    document.getElementById("clLastN").style.borderColor = "#ced4da";
+    document.getElementById("clFirstN").style.borderColor = "#ced4da";
   };
   // const createClinician = () => {
   //   const files = document.querySelector("[type=file]").files;
@@ -206,6 +219,7 @@ function CreateAccount() {
   const navigate = useNavigate();
   const back = () => {
     navigate("/ClinicianList");
+
     window.location.reload();
   };
 
@@ -330,9 +344,8 @@ function CreateAccount() {
                       className="mt-2"
                       id="clFirstNErr"
                       style={{
-                        color: "red",
+                        color: "gray",
                         fontWeight: "bold",
-                        display: "none",
                       }}
                     >
                       First Name must contain letters only
@@ -352,9 +365,8 @@ function CreateAccount() {
                       className="mt-2"
                       id="clLastNErr"
                       style={{
-                        color: "red",
+                        color: "gray",
                         fontWeight: "bold",
-                        display: "none",
                       }}
                     >
                       Last Name must contain letters only
@@ -377,9 +389,8 @@ function CreateAccount() {
                       className="mt-2"
                       id="clCoNuErr"
                       style={{
-                        color: "red",
+                        color: "gray",
                         fontWeight: "bold",
-                        display: "none",
                       }}
                     >
                       Contact Number must contain numbers only
@@ -399,9 +410,8 @@ function CreateAccount() {
                       className="mt-2"
                       id="clErr"
                       style={{
-                        color: "red",
+                        color: "gray",
                         fontWeight: "bold",
-                        display: "none",
                       }}
                     >
                       Please enter valid email address
@@ -424,9 +434,8 @@ function CreateAccount() {
                       className="mt-2"
                       id="clYipErr"
                       style={{
-                        color: "red",
+                        color: "gray",
                         fontWeight: "bold",
-                        display: "none",
                       }}
                     >
                       Work experience must contain numbers only
@@ -446,9 +455,8 @@ function CreateAccount() {
                       className="mt-2"
                       id="clLNErr"
                       style={{
-                        color: "red",
+                        color: "gray",
                         fontWeight: "bold",
-                        display: "none",
                       }}
                     >
                       License Number should contain numbers only
@@ -507,9 +515,8 @@ function CreateAccount() {
                     className="mt-2"
                     id="clUNErr"
                     style={{
-                      color: "red",
+                      color: "gray",
                       fontWeight: "bold",
-                      display: "none",
                     }}
                   >
                     Please enter valid username (minimum of 8)
@@ -543,9 +550,8 @@ function CreateAccount() {
                     className="mt-2"
                     id="clPassErr"
                     style={{
-                      color: "red",
+                      color: "gray",
                       fontWeight: "bold",
-                      display: "none",
                     }}
                   >
                     Password should have 8-10 characters, at least one uppercase

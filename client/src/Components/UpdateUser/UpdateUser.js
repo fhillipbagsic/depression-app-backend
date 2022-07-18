@@ -23,13 +23,10 @@ function UpdateUser() {
   const token = localStorage.getItem("token");
   useEffect(() => {
     Axios.defaults.withCredentials = true;
-    Axios.get(
-      `/api/users/patient?token=${token}&email=${userEmail}`,
-      {
-        email: userEmail,
-        token: token,
-      }
-    )
+    Axios.get(`/api/users/patient?token=${token}&email=${userEmail}`, {
+      email: userEmail,
+      token: token,
+    })
       .then((response) => {
         setpatientEmail(response.data.patient.email);
         setpatientFirstName(response.data.patient.firstName);
@@ -63,30 +60,24 @@ function UpdateUser() {
     const emailRegex = /^[\w-\._0-9]+@([\w-]+\.)+[\w-]{2,50}$/;
 
     if (!nameRegex.test(firstN) || !nameRegex.test(firstN)) {
-      document.getElementById("clientfn").style.display = "block";
       document.getElementById("firstN").style.borderColor = "red";
     }
 
     if (!nameRegex.test(lastN) || !nameRegex.test(lastN)) {
-      document.getElementById("clientln").style.display = "block";
       document.getElementById("lastN").style.borderColor = "red";
     }
     if (!usernameRegex.test(username)) {
-      document.getElementById("clientUsername").style.display = "block";
       document.getElementById("username").style.borderColor = "red";
     }
     if (!numberRegex.test(contact)) {
-      document.getElementById("clientCN").style.display = "block";
       document.getElementById("contact").style.borderColor = "red";
     }
 
     if (!passRegex.test(password)) {
-      document.getElementById("clientPass").style.display = "block";
       document.getElementById("password").style.borderColor = "red";
     }
 
     if (!emailRegex.test(email)) {
-      document.getElementById("clientEmail").style.display = "block";
       document.getElementById("email").style.borderColor = "red";
     }
 
@@ -108,20 +99,17 @@ function UpdateUser() {
       emailRegex.test(email)
     ) {
       setIsVisible(true);
-      Axios.patch(
-        `/api/users/patient?email=${userEmail}`,
-        {
-          token: token,
-          firstName: patientFirstName,
-          lastName: patientLastName,
-          username: patientUsername,
-          picture: prevImage,
-          password: patientPass,
-          currentEmail: userEmail,
-          email: patientEmail,
-          contactNo: patientContactNo,
-        }
-      )
+      Axios.patch(`/api/users/patient?email=${userEmail}`, {
+        token: token,
+        firstName: patientFirstName,
+        lastName: patientLastName,
+        username: patientUsername,
+        picture: prevImage,
+        password: patientPass,
+        currentEmail: userEmail,
+        email: patientEmail,
+        contactNo: patientContactNo,
+      })
         .then((response) => {
           console.log(response.data);
           console.log("nays");
@@ -162,29 +150,23 @@ function UpdateUser() {
           console.log(response.data.secure_url);
           setimgurl(response.data.secure_url);
           Axios.defaults.withCredentials = true;
-          Axios.patch(
-            `/api/users/patient?email=${userEmail}`,
-            {
-              firstName: patientFirstName,
-              lastName: patientLastName,
-              username: patientUsername,
-              picture: response.data.secure_url,
-              password: patientPass,
-              currentEmail: userEmail,
-              email: patientEmail,
-              contactNo: patientContactNo,
-            }
-          )
+          Axios.patch(`/api/users/patient?email=${userEmail}`, {
+            firstName: patientFirstName,
+            lastName: patientLastName,
+            username: patientUsername,
+            picture: response.data.secure_url,
+            password: patientPass,
+            currentEmail: userEmail,
+            email: patientEmail,
+            contactNo: patientContactNo,
+          })
             .then((response) => {
               console.log(response.data);
               console.log("nays");
-              Axios.get(
-                `/api/users/patient?token=${token}`,
-                {
-                  email: userEmail,
-                  token: token,
-                }
-              ).then((response) => {
+              Axios.get(`/api/users/patient?token=${token}`, {
+                email: userEmail,
+                token: token,
+              }).then((response) => {
                 console.log(response.data);
               });
             })
@@ -202,6 +184,14 @@ function UpdateUser() {
   const back = () => {
     navigate("/UserManagement");
     window.location.reload();
+  };
+  const up = () => {
+    document.getElementById("firstN").style.borderColor = "#ced4da";
+    document.getElementById("lastN").style.borderColor = "#ced4da";
+    document.getElementById("username").style.borderColor = "#ced4da";
+    document.getElementById("contact").style.borderColor = "#ced4da";
+    document.getElementById("password").style.borderColor = "#ced4da";
+    document.getElementById("email").style.borderColor = "#ced4da";
   };
   return (
     <div>
@@ -309,6 +299,7 @@ function UpdateUser() {
                       <Form.Control
                         type="text"
                         id="firstN"
+                        onClick={up}
                         value={patientFirstName}
                         onChange={(e) => {
                           setpatientFirstName(e.target.value);
@@ -318,9 +309,8 @@ function UpdateUser() {
                         className="mt-2"
                         id="clientfn"
                         style={{
-                          color: "red",
+                          color: "gray",
                           fontWeight: "bold",
-                          display: "none",
                         }}
                       >
                         First Name must contain letters only
@@ -331,6 +321,7 @@ function UpdateUser() {
                       <Form.Control
                         type="text"
                         id="lastN"
+                        onClick={up}
                         value={patientLastName}
                         onChange={(e) => {
                           setpatientLastName(e.target.value);
@@ -340,9 +331,8 @@ function UpdateUser() {
                         className="mt-2"
                         id="clientln"
                         style={{
-                          color: "red",
+                          color: "gray",
                           fontWeight: "bold",
-                          display: "none",
                         }}
                       >
                         Last Name must contain letters only
@@ -357,6 +347,7 @@ function UpdateUser() {
                       <Form.Control
                         type="tel"
                         id="contact"
+                        onClick={up}
                         value={patientContactNo}
                         onChange={(e) => {
                           setpatientContactNo(e.target.value);
@@ -366,9 +357,8 @@ function UpdateUser() {
                         className="mt-2"
                         id="clientCN"
                         style={{
-                          color: "red",
+                          color: "gray",
                           fontWeight: "bold",
-                          display: "none",
                         }}
                       >
                         Contact Number must contain numbers only
@@ -379,6 +369,7 @@ function UpdateUser() {
                       <Form.Control
                         type="email"
                         id="email"
+                        onClick={up}
                         value={patientEmail}
                         onChange={(e) => {
                           setpatientEmail(e.target.value);
@@ -396,6 +387,7 @@ function UpdateUser() {
                   <Form.Control
                     type="text"
                     id="username"
+                    onClick={up}
                     value={patientUsername}
                     onChange={(e) => {
                       setpatientUsername(e.target.value);
@@ -405,9 +397,8 @@ function UpdateUser() {
                     className="mt-2"
                     id="clientUsername"
                     style={{
-                      color: "red",
+                      color: "gray",
                       fontWeight: "bold",
-                      display: "none",
                     }}
                   >
                     Please enter valid username (minimum of 8)
@@ -419,6 +410,7 @@ function UpdateUser() {
                     type="password"
                     id="password"
                     placeholder="****"
+                    onClick={up}
                     onChange={(e) => {
                       setpatientPass(e.target.value);
                     }}
@@ -427,9 +419,8 @@ function UpdateUser() {
                     className="mt-2"
                     id="clientPass"
                     style={{
-                      color: "red",
+                      color: "gray",
                       fontWeight: "bold",
-                      display: "none",
                     }}
                   >
                     Password should have 8-10 characters, at least one uppercase
