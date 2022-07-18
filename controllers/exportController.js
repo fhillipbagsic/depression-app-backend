@@ -20,8 +20,8 @@ const patientExcel = async (req, res) => {
     const worksheet1 = workbook.addWorksheet('Daily Trackers')
 
     const worksheet1Headings = [
-        'Email',
         'Date',
+        'Email',
         'Sleep At',
         'Wokeup At',
         'Total Hours',
@@ -67,7 +67,7 @@ const patientExcel = async (req, res) => {
 
     const worksheet2 = workbook.addWorksheet('Health Habits')
 
-    const worksheet2Headings = ['Email', 'Date', 'Question', 'Answer']
+    const worksheet2Headings = ['Date', 'Email', 'Question', 'Answer']
 
     let heading2ColIdx = 1
 

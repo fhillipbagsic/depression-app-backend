@@ -1,8 +1,26 @@
 import nodemailer from 'nodemailer'
 
-const sendMailUserAccount = async (toEmail, username, userpassword) => {
-    const subject = 'Emovault New Account'
-    const message = `You can now login using the username ${username} and password ${userpassword}`
+const sendMailUserAccount = async (
+    toEmail,
+    firstname,
+    lastname,
+    username,
+    userpassword
+) => {
+    const subject = 'Emovault by Dr. Procter new account'
+    const message = `<p>Good moring, ${firstname} ${lastname}</p>
+                    <br/>
+                    <p>Your <b>Emovault by Dr. Procter</b> account has been created. Use this the website as your Daily Emotion Journal and Health Habit Tracker.</p>
+                    <br/>
+                    <p>You may log-in at <a href="https://www.emovault.com">https://www.emovault.com</a> using the following credentials:</p>
+                    <br/>
+                    <p><b>Username: ${username}</b></p>
+                    <p><b>Password: ${userpassword}</b></p>
+                    <br/>
+
+<p>Sincerely,</p>
+<br/>
+<p>Emovault by Dr. Procter</p>`
 
     const fromEmail = process.env.GMAIL_EMAIL
     const password = process.env.GMAIL_PASSWORD
@@ -19,7 +37,7 @@ const sendMailUserAccount = async (toEmail, username, userpassword) => {
         from: fromEmail,
         to: toEmail,
         subject,
-        text: message,
+        html: message,
     }
 
     transporter.sendMail(mailOptions, (err, res) => {

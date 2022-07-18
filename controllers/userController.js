@@ -7,7 +7,7 @@ import Admin from '../models/Admin.js'
 import sendMailUserAccount from '../utils/sendMailUserAccount.js'
 
 const createPatient = async (req, res) => {
-    const { email, username, password } = req.body
+    const { email, firstName, lastName, username, password } = req.body
 
     req.body.role = 'Patient'
     const date = new Date(Date.now())
@@ -39,7 +39,7 @@ const createPatient = async (req, res) => {
     req.body.username = String(req.body.username).toLowerCase()
     const response = await Patient.create(req.body)
 
-    sendMailUserAccount(email, username, password)
+    sendMailUserAccount(email, firstName, lastName, username, password)
 
     res.status(StatusCodes.CREATED).json({
         message: `Patient ${response.firstName} ${response.lastName} has been added`,
