@@ -1,8 +1,8 @@
 import nodemailer from 'nodemailer'
 
-const sendMail = async (toEmail, question) => {
+const sendMail = async (toEmail) => {
     const subject = 'Emovault Reminder for Daily Journal'
-    const message = `The question for today is ${question}`
+    const message = `Please answer your emovault journal today. `
 
     const fromEmail = process.env.GMAIL_EMAIL
     const password = process.env.GMAIL_PASSWORD

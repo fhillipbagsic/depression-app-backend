@@ -77,13 +77,11 @@ app.use(errorHandlerMiddleware)
 const job = new CronJob(
     '10 1 8 * * *',
     async () => {
-        const questionOfTheDay = questions[await getDay()]
-
         const patients = await getPatientsEmails()
 
         if (patients) {
             patients.forEach((email) => {
-                sendMail(email, questionOfTheDay)
+                sendMail(email)
             })
         }
     },
