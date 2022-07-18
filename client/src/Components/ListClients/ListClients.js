@@ -35,13 +35,10 @@ function ListClients() {
   const token = localStorage.getItem("token");
   useEffect(() => {
     setclinicianName(cName);
-    Axios.get(
-      `/api/users/getpatients?token=${token}&email=${cEmail}`,
-      {
-        email: cEmail,
-        token: token,
-      }
-    )
+    Axios.get(`/api/users/getpatients?token=${token}&email=${cEmail}`, {
+      email: cEmail,
+      token: token,
+    })
       .then((response) => {
         setclientList(response.data.patients);
         console.log(response.data);
@@ -53,38 +50,58 @@ function ListClients() {
   }, []);
 
   const exportPDF = () => {
-    Axios.post(
-      `/api/export/pdf/clinician?token=${token}`,
-      {
-        email: cEmail,
-        token: token,
-      }
-    ).then((response) => {
-      console.log(response);
-      saveAs(response.data.file, cName + ".pdf");
+    Axios.post(`/api/export/pdf/clinician?token=${token}`, {
+      email: cEmail,
+      token: token,
+    }).then((response) => {
+      document.getElementById("spin").style.display = "block";
+
+      setTimeout(function() {
+        saveAs(response.data.file, cName + ".pdf");
+
+        window.print();
+      }, 3000);
     });
   };
 
   const exportExcel = () => {
-    Axios.post(
-      `/api/export/excel/clinician?token=${token}`,
-      {
-        email: cEmail,
-        token: token,
-      }
-    ).then((response) => {
-      console.log(response);
-      window.open(response.data.file);
+    Axios.post(`/api/export/excel/clinician?token=${token}`, {
+      email: cEmail,
+      token: token,
+    }).then((response) => {
+      document.getElementById("spin").style.display = "block";
+
+      setTimeout(function() {
+        document.getElementById("spin").style.display = "none";
+
+        window.open(response.data.file);
+      }, 3000);
     });
   };
 
   const winprint = () => {
-    window.print();
+    document.getElementById("spin").style.display = "block";
+
+    setTimeout(function() {
+      document.getElementById("spin").style.display = "none";
+
+      window.print();
+    }, 3000);
   };
 
   return (
     <div>
       <EmoNavbar />
+      <div className="clearfix">
+        <div
+          id="spin"
+          style={{ display: "none", float: "right", marginTop: "5px" }}
+          className="spinner-border float-right"
+          role="status"
+        >
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
       <div className="clinicians-tb-bg">
         <div className="clinicians-tb-in">
           <Form.Group>

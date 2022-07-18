@@ -92,8 +92,11 @@ function ClinicianList() {
       email: email,
       token: token,
     }).then((response) => {
-      console.log(response);
-      saveAs(response.data.file, email + ".pdf");
+      document.getElementById("spin").style.display = "block";
+      setTimeout(function() {
+        document.getElementById("spin").style.display = "none";
+        saveAs(response.data.file, email + ".pdf");
+      }, 3000);
     });
   };
 
@@ -102,17 +105,33 @@ function ClinicianList() {
       email: email,
       token: token,
     }).then((response) => {
-      console.log(response);
-      window.open(response.data.file);
+      document.getElementById("spin").style.display = "block";
+      setTimeout(function() {
+        document.getElementById("spin").style.display = "none";
+        window.open(response.data.file);
+      }, 3000);
     });
   };
 
   const winprint = () => {
-    window.print();
+    setTimeout(function() {
+      document.getElementById("spin").style.display = "none";
+      window.print();
+    }, 3000);
   };
   return (
     <div>
       <EmoNavbar />
+      <div className="clearfix">
+        <div
+          id="spin"
+          style={{ display: "none", float: "right", marginTop: "5px" }}
+          className="spinner-border float-right"
+          role="status"
+        >
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
       <div className="clinicians-tb-bg">
         <div className="clinicians-tb-in">
           <Form.Group>

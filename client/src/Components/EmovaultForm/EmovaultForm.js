@@ -222,6 +222,7 @@ function EmovaultForm() {
     }
     if (prefAlone.checked === false) {
       setpreferAlone(false);
+      social.value = "";
     }
   };
 
@@ -314,7 +315,7 @@ function EmovaultForm() {
       const pl = document.getElementById("social").value;
       Axios.post("/api/tracker/dailytracker", {
         token: token,
-        date: todayDate,
+        date: showDate,
         sleepAt: patientSleepAt,
         wokeUpAt: patientWokeUpAt,
         totalHours: ttlhr,
@@ -476,32 +477,7 @@ function EmovaultForm() {
             <Form.Group>
               <Row className="mb-3">
                 <Col>
-                  <Form.Label className="fw-bold">Date:</Form.Label>
-                  <Form.Group
-                    style={{
-                      width: "100%",
-                      background: "white",
-                      borderRadius: "5px",
-                      borderStyle: "solid",
-                      borderWidth: "1px",
-                      borderColor: "#ced4da",
-                      padding: "0px 0px 0px 10px",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <Form.Label
-                      style={{
-                        padding: "5px 0px 0px 0px",
-                        width: "100%",
-                      }}
-                      id="date-dt"
-                    >
-                      {showDate}
-                    </Form.Label>
-                  </Form.Group>
-                </Col>
-                <Col>
-                  <Form.Label className="fw-bold">Sleep At:</Form.Label>
+                  <Form.Label className="fw-bold">Sleep Time:</Form.Label>
                   <Form.Control
                     type="time"
                     id="time"
@@ -524,7 +500,7 @@ function EmovaultForm() {
                   </Form.Label>
                 </Col>
                 <Col>
-                  <Form.Label className="fw-bold">Woke Up At:</Form.Label>
+                  <Form.Label className="fw-bold">Woke Up Time:</Form.Label>
                   <Form.Control
                     type="time"
                     id="time2"
