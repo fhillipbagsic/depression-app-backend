@@ -36,10 +36,10 @@ function Journal() {
   const token = localStorage.getItem("token");
   useEffect(() => {
     console.log(getPatientEmail);
-    Axios.get(
-      `/api/users/patient?token=${token}&email=${getPatientEmail}`,
-      { email: getPatientEmail, token: token }
-    )
+    Axios.get(`/api/users/patient?token=${token}&email=${getPatientEmail}`, {
+      email: getPatientEmail,
+      token: token,
+    })
       .then((response) => {
         setpatientInfo(response.data.patient.picture);
         setpatientEmail(response.data.patient.email);
@@ -90,7 +90,6 @@ function Journal() {
     navigate("/ClinicianClients");
     window.location.reload();
   };
-  
 
   return (
     <>
@@ -207,7 +206,7 @@ function Journal() {
                 {tracker.map((val, key) => {
                   return (
                     <tr key={key}>
-                      <td>{val.date}</td>
+                      <td>{moment(val.date).format("MM/DD/YYYY")}</td>
                       <td>{val.moodOrFeelings}</td>
                       <td>{val.triggers}</td>
                       <td>

@@ -315,7 +315,7 @@ function EmovaultForm() {
       const pl = document.getElementById("social").value;
       Axios.post("/api/tracker/dailytracker", {
         token: token,
-        date: todayDate,
+        date: showDate,
         sleepAt: patientSleepAt,
         wokeUpAt: patientWokeUpAt,
         totalHours: ttlhr,

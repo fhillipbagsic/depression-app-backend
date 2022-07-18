@@ -13,6 +13,7 @@ import {
   InputGroup,
   FormControl,
   Table,
+  Spinner,
 } from "react-bootstrap";
 import { saveAs } from "file-saver";
 import ClinicianNav from "../Navbar/ClinicianNav";
@@ -28,13 +29,10 @@ function ClinicianClients() {
   const token = localStorage.getItem("token");
   useEffect(() => {
     console.log(userEmail);
-    Axios.get(
-      `/api/users/getpatients?token=${token}`,
-      {
-        token: token,
-        email: userEmail,
-      }
-    )
+    Axios.get(`/api/users/getpatients?token=${token}`, {
+      token: token,
+      email: userEmail,
+    })
       .then((response) => {
         setclinicianClientList(response.data.patients);
         console.log(response.data);
@@ -176,36 +174,57 @@ function ClinicianClients() {
   };
 
   const exportPDF = (email) => {
-    Axios.post(
-      `/api/export/pdf/patient?token=${token}`,
-      {
-        email: email,
-        token: token,
-      }
-    ).then((response) => {
-      console.log(response);
-      saveAs(response.data.file, email + ".pdf");
+    Axios.post(`/api/export/pdf/patient?token=${token}`, {
+      email: email,
+      token: token,
+    }).then((response) => {
+      document.getElementById("spin").style.display = "block";
+
+      setTimeout(function() {
+        document.getElementById("spin").style.display = "none";
+
+        saveAs(response.data.file, email + ".pdf");
+      }, 3000);
     });
   };
+
   const exportExcel = (email) => {
-    Axios.post(
-      `/api/export/excel/patient?token=${token}`,
-      {
-        email: email,
-        token: token,
-      }
-    ).then((response) => {
-      console.log(response);
-      window.open(response.data.file);
+    Axios.post(`/api/export/excel/patient?token=${token}`, {
+      email: email,
+      token: token,
+    }).then((response) => {
+      document.getElementById("spin").style.display = "block";
+
+      setTimeout(function() {
+        document.getElementById("spin").style.display = "none";
+
+        window.open(response.data.file);
+      }, 3000);
     });
   };
 
   const winprint = () => {
-    window.print();
+    document.getElementById("spin").style.display = "block";
+
+    setTimeout(function() {
+      document.getElementById("spin").style.display = "none";
+
+      window.print();
+    }, 3000);
   };
   return (
     <>
       <ClinicianNav />
+      <div className="clearfix">
+        <div
+          id="spin"
+          style={{ display: "none", float: "right", marginTop: "5px" }}
+          className="spinner-border float-right"
+          role="status"
+        >
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
       <div className="clinicians-tb-bg">
         <div className="clinicians-tb-in">
           <Form.Group>
