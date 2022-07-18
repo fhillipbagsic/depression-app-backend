@@ -30,10 +30,8 @@ const dailyTracker = async (req, res) => {
             message: "Patient has already logged today's daily tracker",
         })
     }
-    const dateMinusOneDay = new Date(adjustedDate)
 
-    dateMinusOneDay.setDate(dateMinusOneDay.getDate() - 1)
-    req.body.date = dateMinusOneDay
+    req.body.date = new Date(adjustedDate)
 
     const response = await DailyTracker.create({ ...req.body, email })
 
