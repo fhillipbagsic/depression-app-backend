@@ -1,11 +1,11 @@
 import mongoose from 'mongoose'
 
 const DailyTrackerSchema = new mongoose.Schema({
+    date: { type: String, required: [true, 'Please assign date'] },
     email: {
         type: String,
         required: [true, 'Please assign patient'],
     },
-    date: { type: String, required: [true, 'Please assigndate'] },
     sleepAt: {
         type: String,
         required: [true, 'Please assign sleep at'],
