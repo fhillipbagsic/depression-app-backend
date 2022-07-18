@@ -188,7 +188,7 @@ const updateClinician = async (req, res) => {
 }
 
 const getClinician = async (req, res) => {
-    const email = req.query.email
+    const email = req.query?.email || req.user.email
 
     const clinician = await Clinician.findOne({ email })
 
