@@ -125,7 +125,7 @@ function EmovaultForm() {
     document.getElementById("psErr").style.display = "none";
     document.getElementById("saErr").style.display = "none";
     document.getElementById("wauErr").style.display = "none";
-    document.getElementById("socErr").style.display = "none";
+   
     document.getElementById("tErr").style.display = "none";
     document.getElementById("mferror").style.display = "none";
     //
@@ -276,12 +276,7 @@ function EmovaultForm() {
       document.getElementById("wauErr").style.display = "block";
     }
 
-    if (
-      document.getElementById("prefAlone").checked === false ||
-      document.getElementById("social").value == ""
-    ) {
-      document.getElementById("socErr").style.display = "block";
-    }
+   
 
     if (document.getElementById("trig").value == "") {
       document.getElementById("tErr").style.display = "block";
@@ -758,17 +753,7 @@ function EmovaultForm() {
                       value={patientAlone}
                     />
                   </Col>
-                  <Form.Label
-                    className="mt-2"
-                    id="socErr"
-                    style={{
-                      color: "red",
-                      fontWeight: "bold",
-                      display: "none",
-                    }}
-                  >
-                    Please add social engagement
-                  </Form.Label>
+                 
                 </Col>
               </Row>
               <Row className="emo-dt-cancel-submit">
