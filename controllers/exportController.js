@@ -25,8 +25,8 @@ const patientExcel = async (req, res) => {
     const worksheet1Headings = [
         'Date',
         'Email',
-        'Sleep At',
-        'Wokeup At',
+        'Sleep Time',
+        'Woke Up Time',
         'Total Hours',
         'Mood or Feelings',
         'Triggers',
@@ -384,9 +384,9 @@ const patientPDF = async (req, res) => {
 
                 let table = [
                     [
-                        { text: 'Sleep at', style: 'tableHeader' },
+                        { text: 'Sleep Time', style: 'tableHeader' },
                         sleepAt,
-                        { text: 'Woke Up At', style: 'tableHeader' },
+                        { text: 'Woke Up Time', style: 'tableHeader' },
 
                         wokeUpAt,
                     ],
@@ -500,6 +500,8 @@ const patientPDF = async (req, res) => {
 const clinicianPDF = async (req, res) => {
     const clinician = req.body?.email || req.user.email
 
+    const clinicianName = await Clinician.findOne({ email: clinician })
+    console.log(clinicianName)
     const patients = await Patient.find({ assignedClinician: clinician }).lean()
 
     let text = [
@@ -517,7 +519,7 @@ const clinicianPDF = async (req, res) => {
                     style: 'column',
                 },
                 {
-                    text: clinician,
+                    text: `${clinicianName.firstName} ${clinicianName.lastName}`,
                     style: 'data',
                 },
             ],
