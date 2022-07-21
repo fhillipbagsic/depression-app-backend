@@ -42,7 +42,7 @@ function EmovaultForm() {
       token: token,
     }).then((response) => {
       setquestionoftheday(response.data.question);
-      console.log(response.data);
+     
     });
   }, []);
 

@@ -1,8 +1,9 @@
 import { Form, Button } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Axios from "axios";
 import React, { useState } from "react";
 function NewPass() {
+  const navigate = useNavigate();
   const { token } = useParams();
   const [password, setpassword] = useState("");
   const submitPass = () => {
@@ -11,6 +12,7 @@ function NewPass() {
       newPassword: password,
     }).then((response) => {
       alert("Password successfully changed");
+      navigate("/Login");
     });
   };
   return (
