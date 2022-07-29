@@ -115,14 +115,20 @@ const getDay = async () => {
     let day = await response.currentDay
     const date = new Date(await response.currentDate)
 
+    console.log(date.getDate())
+    console.log(new Date(adjustedDate).getDate())
     // if date is not the same as current date, update the currentDay
-    if (date.getDate() !== new Date(adjustedDate).getDate()) {
+    if (date.getDate() < new Date(adjustedDate).getDate()) {
         day = day === 74 ? 0 : day + 1
-
+        console.log(day)
         const response = await CurrentDay.findOneAndUpdate(
             { currentDate: date },
             { currentDay: day, currentDate: currentDate }
         )
+        console.log(response)
+
+        const updatedDate = await CurrentDay.findOne()
+        console.log(updatedDate)
     }
 
     return day
