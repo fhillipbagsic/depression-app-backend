@@ -5,6 +5,7 @@ const sendMail = async (toEmail, firstName, lastName) => {
     const message = `<p>Good morning, ${firstName} ${lastName}.</p>
 <br/>
 <p>Please answer your Emovault by Dr. Procter Journal.</p>
+<p>Click the link to open <a href="https://www.emovault.com">emovault</a>.</p>
 <p>Have a great day ahead!</p>
 <br>
 <p>Sincerely, <br>Emovault by Dr. Procter</p>`
